@@ -1,0 +1,10 @@
+.mission-meta{display:flex;justify-content:space-between;gap:12px;margin-top:18px;color:#2be7ff;font-size:13px;font-weight:900}
+.mission-meta span{background:#081a46;border:1px solid #31559b;border-radius:99px;padding:8px 12px}
+.question-icon{text-align:center;font-size:58px;margin:18px 0 -42px;filter:drop-shadow(0 8px 10px #0007)}
+.egg-pop{position:fixed;left:50%;top:45%;font-size:80px;z-index:20;pointer-events:none;animation:eggPop .8s ease-out forwards}
+.answer.bounce{animation:rightAnswer .42s ease}
+.result-screen.celebrate:after{content:'🎉  ⭐  🥚  🌿  ⭐  🎉';position:absolute;top:10%;font-size:34px;letter-spacing:18px;animation:confetti 2s infinite alternate}
+@keyframes eggPop{0%{opacity:0;transform:translate(-50%,-20%) scale(.2)}50%{opacity:1;transform:translate(-50%,-70%) scale(1.2)}100%{opacity:0;transform:translate(-50%,-130%) scale(.8)}}
+@keyframes rightAnswer{50%{transform:scale(1.04)}}
+@keyframes confetti{to{transform:translateY(25px) rotate(4deg)}}
+@media(max-width:780px){.mission-meta{font-size:11px}.question-icon{font-size:48px;margin-bottom:-34px}.result-screen.celebrate:after{font-size:20px;letter-spacing:8px}}
