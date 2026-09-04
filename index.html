@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#07122f" />
+  <title>Rex's Millionaire Challenge</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <main class="app-shell">
+    <header class="topbar">
+      <div class="brand"><span class="brand-mark">🦖</span><div><b>REX'S MILLIONAIRE</b><small>SCIENCE + SOCIAL STUDIES</small></div></div>
+      <button id="teacherBtn" class="teacher-link" type="button">Teacher results</button>
+    </header>
+
+    <section id="startScreen" class="screen start-screen active">
+      <div class="rex-stage" aria-label="Rex, the friendly dinosaur host">
+        <div class="spotlight"></div><div class="rex">🦖</div>
+        <div class="speech"><span>Hello, explorer!</span> Are you ready?</div>
+      </div>
+      <div class="start-card">
+        <span class="eyebrow">DIAGNOSTIC CHALLENGE</span>
+        <h1>Win the<br><em>Dino Crown!</em></h1>
+        <p>Answer 5 questions in English. Rex will guide you through Science and Social Studies.</p>
+        <label for="studentName">Explorer's name</label>
+        <input id="studentName" maxlength="40" autocomplete="off" placeholder="Write your name" />
+        <button id="startBtn" class="primary" type="button">PLAY WITH REX <span>▶</span></button>
+        <p id="nameError" class="error" role="alert"></p>
+      </div>
+    </section>
+
+    <section id="gameScreen" class="screen game-screen">
+      <div class="game-head">
+        <div><span id="studentLabel" class="player-name"></span><span id="subjectPill" class="subject-pill"></span></div>
+        <div class="question-count">QUESTION <b id="questionNumber">1</b> / 5</div>
+      </div>
+      <div class="progress" aria-label="Game progress"><span id="progressBar"></span></div>
+      <div class="arena">
+        <aside class="prize-ladder" aria-label="Prize ladder">
+          <h2>DINO POINTS</h2>
+          <ol reversed><li data-step="5"><b>5</b> DINO CROWN</li><li data-step="4"><b>4</b> VOLCANO</li><li data-step="3"><b>3</b> T-REX</li><li data-step="2"><b>2</b> EGG</li><li data-step="1"><b>1</b> FOSSIL</li></ol>
+        </aside>
+        <div class="quiz-card">
+          <div class="lifelines" aria-label="Help buttons">
+            <button id="fiftyBtn" type="button" title="Remove two wrong answers">50:50</button>
+            <button id="rexHelpBtn" type="button" title="Ask Rex for a clue">🦖 Ask Rex</button>
+            <button id="speakBtn" type="button" title="Listen to the question">🔊 Listen</button>
+          </div>
+          <div id="clue" class="clue" aria-live="polite"></div>
+          <h2 id="questionText" class="question-text"></h2>
+          <div id="answers" class="answers"></div>
+          <div id="feedback" class="feedback" aria-live="polite"></div>
+          <button id="nextBtn" class="primary next-btn" type="button">NEXT QUESTION <span>▶</span></button>
+        </div>
+      </div>
+    </section>
+
+    <section id="resultScreen" class="screen result-screen">
+      <div class="result-glow"></div><div id="resultRex" class="result-rex">🦖</div>
+      <span class="eyebrow">CHALLENGE COMPLETE</span>
+      <h1 id="resultTitle">Great job!</h1>
+      <div class="score-ring"><strong id="scoreValue">0/5</strong><span>DINO POINTS</span></div>
+      <p id="resultMessage"></p>
+      <div id="breakdown" class="breakdown"></div>
+      <button id="newStudentBtn" class="primary" type="button">NEXT EXPLORER</button>
+    </section>
+
+    <dialog id="teacherDialog">
+      <div class="dialog-head"><div><span class="eyebrow">TEACHER MAJO</span><h2>Diagnostic results</h2></div><button id="closeDialog" aria-label="Close">×</button></div>
+      <p>Results are saved on this device.</p>
+      <div class="table-wrap"><table><thead><tr><th>Student</th><th>Score</th><th>Science</th><th>Social</th><th>Date</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+      <div class="dialog-actions"><button id="downloadBtn" class="primary" type="button">DOWNLOAD CSV</button><button id="clearBtn" class="danger" type="button">Clear results</button></div>
+    </dialog>
+  </main>
+  <script src="app.js"></script>
+</body>
+</html>
