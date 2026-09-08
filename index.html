@@ -35,7 +35,7 @@
     <div class="arena">
       <aside class="prize-ladder">
         <h2>10-POINT MAP</h2>
-        <div class="score-map"><span>🔬 Science <b>5.00</b></span><span>🌎 Social Studies <b>5.00</b></span><strong>TOTAL 10.00</strong></div>
+        <div class="score-map"><span>🔬 Science rubric <b>/10</b></span><span>🌎 Social Studies rubric <b>/10</b></span><strong>FINAL AVERAGE /10</strong></div>
       </aside>
       <div class="quiz-card">
         <div class="lifelines"><button id="fiftyBtn" type="button">50:50</button><button id="rexHelpBtn" type="button">🦖 Ask Rex</button><button id="speakBtn" type="button">🔊 Listen</button></div>
@@ -64,8 +64,8 @@
 
   <dialog id="teacherDialog" class="dashboard-dialog">
     <div class="dialog-head"><div><span class="eyebrow">TEACHER MAJO</span><h2>Diagnostic dashboard</h2></div><button id="closeDialog" aria-label="Close">×</button></div>
-    <p>Each result includes two automatically completed rubrics: Science /5 and Social Studies /5.</p>
-    <div class="table-wrap"><table><thead><tr><th>Student</th><th>Science /5</th><th>Social /5</th><th>Final /10</th><th>Rubrics</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+    <p>Each result includes two Eight Academy rubrics: Science /10 and Social Studies /10. The final grade is their average.</p>
+    <div class="table-wrap"><table><thead><tr><th>Student</th><th>Science /10</th><th>Social Studies /10</th><th>Final /10</th><th>Rubrics</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
     <div id="dashboardRubrics" class="dashboard-rubrics"></div>
     <div class="dialog-actions"><button id="downloadBtn" class="primary" type="button">⬇ DOWNLOAD DASHBOARD CSV</button><button id="clearBtn" class="danger" type="button">Clear results</button></div>
   </dialog>
