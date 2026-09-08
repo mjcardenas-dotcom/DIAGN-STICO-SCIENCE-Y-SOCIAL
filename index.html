@@ -42,7 +42,7 @@
         <div class="mission-meta"><span id="topicLabel"></span><span id="streakLabel">🥚 Eggs: 0</span></div>
         <div id="clue" class="clue" aria-live="polite"></div>
         <div id="passageCard" class="passage-card"></div>
-        <div id="questionVisual" class="question-visual"><img id="questionImage" alt=""><div><strong id="visualTitle"></strong><span id="visualDetail"></span></div></div>
+        <div id="questionVisual" class="question-visual"><img id="questionImage" alt="Reference picture"></div>
         <h2 id="questionText" class="question-text"></h2>
         <div id="answers" class="answers"></div>
         <div id="responseArea" class="response-area"></div>
@@ -57,6 +57,8 @@
     <div class="score-ring"><strong id="scoreValue">—/10</strong><span>FINAL SCORE</span></div>
     <p id="resultMessage">Your Science and Social Studies rubrics are ready.</p>
     <div id="breakdown" class="breakdown"></div>
+    <div id="resultRubrics" class="result-rubrics"></div>
+    <button id="openCurrentRubricsBtn" class="rubric-btn result-rubric-btn" type="button">VIEW FULL RUBRICS</button>
     <button id="newStudentBtn" class="primary" type="button">NEXT EXPLORER</button>
   </section>
 
@@ -64,6 +66,7 @@
     <div class="dialog-head"><div><span class="eyebrow">TEACHER MAJO</span><h2>Diagnostic dashboard</h2></div><button id="closeDialog" aria-label="Close">×</button></div>
     <p>Each result includes two automatically completed rubrics: Science /5 and Social Studies /5.</p>
     <div class="table-wrap"><table><thead><tr><th>Student</th><th>Science /5</th><th>Social /5</th><th>Final /10</th><th>Rubrics</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+    <div id="dashboardRubrics" class="dashboard-rubrics"></div>
     <div class="dialog-actions"><button id="downloadBtn" class="primary" type="button">⬇ DOWNLOAD DASHBOARD CSV</button><button id="clearBtn" class="danger" type="button">Clear results</button></div>
   </dialog>
 

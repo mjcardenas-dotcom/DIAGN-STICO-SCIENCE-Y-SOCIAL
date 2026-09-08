@@ -10,13 +10,13 @@
 @media(max-width:780px){.mission-meta{font-size:11px}.question-icon{font-size:48px;margin-bottom:-34px}.result-screen.celebrate:after{font-size:20px;letter-spacing:8px}}
 
 .top-actions{display:flex;gap:10px;align-items:center}
-.question-visual{max-width:650px;margin:18px auto 8px;min-height:150px;display:flex;align-items:center;justify-content:center;gap:28px;padding:20px 28px;border-radius:22px;background:linear-gradient(135deg,#eafcff,#fff8d7);border:4px solid #78e6f2;box-shadow:0 10px 0 #173a75,0 18px 34px #0005;color:#102452}
-.question-visual img{width:124px;height:124px;object-fit:contain;filter:drop-shadow(0 8px 7px #16305c33)}
+.question-visual{max-width:360px;margin:18px auto 8px;min-height:150px;display:flex;align-items:center;justify-content:center;padding:20px 28px;border-radius:22px;background:linear-gradient(135deg,#eafcff,#fff8d7);border:4px solid #78e6f2;box-shadow:0 10px 0 #173a75,0 18px 34px #0005;color:#102452}
+.question-visual img{width:140px;height:140px;object-fit:contain;filter:drop-shadow(0 8px 7px #16305c33)}
 .question-visual div{display:flex;flex-direction:column;gap:7px;text-align:left}
 .question-visual strong{font-size:25px;color:#073f71}
 .question-visual span{font:700 17px/1.35 system-ui,sans-serif;color:#31506b}
 .question-text{margin:24px auto 26px}
 .subject-pill[data-area="Science"]{background:#0b5c3b;color:#9effbd}
 .subject-pill[data-area="Social Studies"]{background:#633c04;color:#ffe092}
-@media(max-width:780px){.top-actions{gap:5px}.top-actions .teacher-link{padding:8px 7px}.question-visual{min-height:120px;gap:16px;padding:15px}.question-visual img{width:88px;height:88px}.question-visual strong{font-size:20px}.question-visual span{font-size:15px}}
+@media(max-width:780px){.top-actions{gap:5px}.top-actions .teacher-link{padding:8px 7px}.question-visual{min-height:120px;padding:15px}.question-visual img{width:100px;height:100px}.question-visual strong{font-size:20px}.question-visual span{font-size:15px}}
 @media(max-width:520px){.brand small{display:none}.topbar{padding-left:10px;padding-right:10px}.teacher-link{font-size:0}.teacher-link:first-child{font-size:11px}.teacher-link:last-child:before{content:'📊';font-size:20px}.question-visual{flex-direction:column;text-align:center;gap:8px}.question-visual div{text-align:center}}
