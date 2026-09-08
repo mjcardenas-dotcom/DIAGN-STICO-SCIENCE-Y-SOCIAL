@@ -13,7 +13,7 @@
 <main class="app-shell">
   <header class="topbar">
     <div class="brand"><span class="brand-mark">🦖</span><div><b>REX'S DIAGNOSTIC ADVENTURE</b><small>2nd EGB EXIT PROFILE · SCIENCE + SOCIAL STUDIES</small></div></div>
-    <button id="teacherBtn" class="teacher-link" type="button">📊 Teacher dashboard</button>
+      <div class="top-actions"><button id="musicBtn" class="teacher-link" type="button" aria-pressed="true">🎵 Music: ON</button><button id="teacherBtn" class="teacher-link" type="button">📊 Teacher dashboard</button></div>
   </header>
 
   <section id="startScreen" class="screen start-screen active">
@@ -21,7 +21,7 @@
     <div class="start-card">
       <span class="eyebrow">DIAGNOSTIC ASSESSMENT · 10 POINTS</span>
       <h1>Unlock the<br><em>Dino Treasure!</em></h1>
-      <p>Complete Science, Social Studies and four English skill missions: Listening, Speaking, Reading and Writing.</p>
+      <p>Answer 5 Science questions and 5 Social Studies questions. Look at the picture, listen and choose.</p>
       <label for="studentName">Student's name</label>
       <input id="studentName" maxlength="50" autocomplete="off" placeholder="Write the student's name">
       <button id="startBtn" class="primary" type="button">START ADVENTURE ▶</button>
@@ -30,19 +30,19 @@
   </section>
 
   <section id="gameScreen" class="screen game-screen">
-    <div class="game-head"><div><span id="studentLabel" class="player-name"></span><span id="subjectPill" class="subject-pill"></span></div><div class="question-count">MISSION <b id="questionNumber">1</b> / 14</div></div>
+    <div class="game-head"><div><span id="studentLabel" class="player-name"></span><span id="subjectPill" class="subject-pill"></span></div><div class="question-count">MISSION <b id="questionNumber">1</b> / 10</div></div>
     <div class="progress"><span id="progressBar"></span></div>
     <div class="arena">
       <aside class="prize-ladder">
         <h2>10-POINT MAP</h2>
-        <div class="score-map"><span>🔬 Science <b>2.50</b></span><span>🌎 Social Studies <b>2.50</b></span><span>🎧 Listening <b>1.25</b></span><span>📖 Reading <b>1.25</b></span><span>🗣️ Speaking <b>1.25</b></span><span>✍️ Writing <b>1.25</b></span><strong>TOTAL 10.00</strong></div>
+        <div class="score-map"><span>🔬 Science <b>5.00</b></span><span>🌎 Social Studies <b>5.00</b></span><strong>TOTAL 10.00</strong></div>
       </aside>
       <div class="quiz-card">
         <div class="lifelines"><button id="fiftyBtn" type="button">50:50</button><button id="rexHelpBtn" type="button">🦖 Ask Rex</button><button id="speakBtn" type="button">🔊 Listen</button></div>
         <div class="mission-meta"><span id="topicLabel"></span><span id="streakLabel">🥚 Eggs: 0</span></div>
         <div id="clue" class="clue" aria-live="polite"></div>
         <div id="passageCard" class="passage-card"></div>
-        <div id="questionIcon" class="question-icon"></div>
+        <div id="questionVisual" class="question-visual"><img id="questionImage" alt=""><div><strong id="visualTitle"></strong><span id="visualDetail"></span></div></div>
         <h2 id="questionText" class="question-text"></h2>
         <div id="answers" class="answers"></div>
         <div id="responseArea" class="response-area"></div>
@@ -54,24 +54,24 @@
 
   <section id="resultScreen" class="screen result-screen">
     <div class="result-rex">🦖</div><span class="eyebrow">ADVENTURE COMPLETE</span><h1>Great job, explorer!</h1>
-    <div class="score-ring"><strong id="scoreValue">—/10</strong><span>PROVISIONAL</span></div>
-    <p id="resultMessage">Teacher Majo will complete your Speaking and Writing rubric.</p>
+    <div class="score-ring"><strong id="scoreValue">—/10</strong><span>FINAL SCORE</span></div>
+    <p id="resultMessage">Your Science and Social Studies rubrics are ready.</p>
     <div id="breakdown" class="breakdown"></div>
     <button id="newStudentBtn" class="primary" type="button">NEXT EXPLORER</button>
   </section>
 
   <dialog id="teacherDialog" class="dashboard-dialog">
     <div class="dialog-head"><div><span class="eyebrow">TEACHER MAJO</span><h2>Diagnostic dashboard</h2></div><button id="closeDialog" aria-label="Close">×</button></div>
-    <p>Open each student's rubric to score Speaking and Writing. The final grade is calculated over 10 points.</p>
-    <div class="table-wrap"><table><thead><tr><th>Student</th><th>Science</th><th>Social</th><th>L</th><th>R</th><th>S</th><th>W</th><th>Total</th><th>Rubric</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
+    <p>Each result includes two automatically completed rubrics: Science /5 and Social Studies /5.</p>
+    <div class="table-wrap"><table><thead><tr><th>Student</th><th>Science /5</th><th>Social /5</th><th>Final /10</th><th>Rubrics</th></tr></thead><tbody id="resultsBody"></tbody></table></div>
     <div class="dialog-actions"><button id="downloadBtn" class="primary" type="button">⬇ DOWNLOAD DASHBOARD CSV</button><button id="clearBtn" class="danger" type="button">Clear results</button></div>
   </dialog>
 
   <dialog id="rubricDialog" class="rubric-dialog">
-    <div class="dialog-head"><div><span class="eyebrow">INDIVIDUAL RUBRIC</span><h2 id="rubricStudent"></h2></div><button id="closeRubric" aria-label="Close">×</button></div>
+    <div class="dialog-head"><div><span class="eyebrow">AUTOMATIC INDIVIDUAL RUBRICS</span><h2 id="rubricStudent"></h2></div><button id="closeRubric" aria-label="Close">×</button></div>
     <div id="rubricContent"></div>
     <div class="rubric-total">FINAL GRADE <strong id="rubricTotal">0.00 / 10</strong></div>
-    <button id="saveRubricBtn" class="primary" type="button">SAVE RUBRIC</button>
+    <button id="printRubricBtn" class="primary" type="button">🖨 PRINT / SAVE RUBRICS</button>
   </dialog>
 </main>
 <script src="app.js"></script>
