@@ -1,0 +1,170 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>Rex Plant Lab | 3rd Grade Science</title>
+<style>
+:root{--green:#35b86b;--dark:#185a37;--lime:#dff7b8;--yellow:#ffd85a;--blue:#71cfff;--cream:#fffaf0;--brown:#8b5a2b;--red:#ff6b6b;--shadow:0 10px 24px rgba(0,0,0,.12)}
+*{box-sizing:border-box} body{margin:0;font-family:Arial,Helvetica,sans-serif;background:linear-gradient(#c9f3ff,#f7ffe8);color:#173b2a;min-height:100vh}
+header{background:linear-gradient(135deg,#1b9c57,#6fd34b);color:white;padding:18px 16px;text-align:center;border-bottom:8px solid #ffd85a}
+header h1{margin:0;font-size:clamp(28px,5vw,54px)} header p{margin:6px 0 0;font-size:clamp(15px,2.4vw,22px);font-weight:700}
+.wrap{max-width:1100px;margin:auto;padding:16px}.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;position:sticky;top:0;background:#ffffffdd;backdrop-filter:blur(8px);padding:10px;border-radius:0 0 18px 18px;z-index:10}
+.tab{border:0;border-radius:16px;padding:12px 8px;font-size:16px;font-weight:900;background:white;box-shadow:var(--shadow);cursor:pointer}.tab.active{background:var(--yellow)}
+.panel{display:none;background:white;margin-top:16px;border-radius:24px;padding:20px;box-shadow:var(--shadow)}.panel.active{display:block}
+h2{font-size:clamp(26px,4vw,40px);margin:0 0 12px;color:var(--dark)}h3{font-size:24px}.big{font-size:clamp(22px,4vw,34px);font-weight:900}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:14px}.card{border:4px solid #d9f4df;border-radius:22px;padding:18px;text-align:center;background:#fbfff8}
+.emoji{font-size:70px;line-height:1.1}.word{font-size:26px;font-weight:900;margin:6px 0}.sentence{font-size:18px;font-weight:700}
+.btn{border:0;border-radius:18px;padding:13px 18px;font-size:18px;font-weight:900;cursor:pointer;background:var(--yellow);box-shadow:0 5px 0 #d9ad1f;margin:4px}.btn:active{transform:translateY(3px);box-shadow:0 2px 0 #d9ad1f}.btn.green{background:#8be36c;box-shadow:0 5px 0 #4fa53d}.btn.blue{background:#8fdcff;box-shadow:0 5px 0 #4aa8d1}.btn.red{background:#ff9b9b;box-shadow:0 5px 0 #d95e5e}
+.teacher{background:#fff8cd;border:3px dashed #e8bc24;border-radius:18px;padding:12px;margin:12px 0;font-weight:700}
+.center{text-align:center}.score{font-size:24px;font-weight:900;background:#eefbe8;padding:10px 16px;border-radius:16px;display:inline-block}
+.choiceGrid{display:grid;grid-template-columns:repeat(2,minmax(140px,1fr));gap:12px;max-width:700px;margin:14px auto}.choice{min-height:90px;border:4px solid #d7efd9;border-radius:20px;background:#fff;font-size:22px;font-weight:900;cursor:pointer}
+.choice.good{background:#caffc0}.choice.bad{background:#ffc8c8}
+.plantStage{display:grid;grid-template-columns:1fr 1fr;gap:18px;align-items:center}.labels{display:grid;gap:10px}.labelBtn{font-size:22px;border:4px solid #cdeccb;background:white;border-radius:18px;padding:12px;font-weight:900;cursor:pointer}.labelBtn.selected{background:#ffe46f;border-color:#d6a900}.labelBtn.done{background:#bdf4bd;border-color:#48a948}
+svg{width:100%;max-height:480px}.hot{cursor:pointer;stroke:#fff;stroke-width:5;fill:rgba(255,255,255,.15)}.hot:hover,.hot.on{fill:rgba(255,225,0,.35);stroke:#ffd400}
+.feedback{min-height:42px;font-size:24px;font-weight:900;margin:12px 0}.ok{color:#178b45}.no{color:#c33}
+.experiment{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:10px}.step{background:#efffe9;border-radius:18px;padding:14px;border:3px solid #b8e8a8;text-align:center;font-weight:800}.step b{display:block;font-size:22px;margin-bottom:5px}
+@media(max-width:760px){.tabs{grid-template-columns:repeat(2,1fr)}.plantStage{grid-template-columns:1fr}.choiceGrid{grid-template-columns:1fr 1fr}}
+</style>
+</head>
+<body>
+<header>
+  <h1>🦖🌱 Rex Plant Lab</h1>
+  <p>3rd Grade Science • Plants Are Living Things</p>
+</header>
+<div class="wrap">
+  <div class="tabs">
+    <button class="tab active" data-tab="learn">🌱 Learn</button>
+    <button class="tab" data-tab="parts">🌿 Plant Parts</button>
+    <button class="tab" data-tab="needs">☀️ Plant Needs</button>
+    <button class="tab" data-tab="living">❤️ Living?</button>
+    <button class="tab" data-tab="rex">🦖 Rex Challenge</button>
+  </div>
+
+  <section id="learn" class="panel active">
+    <h2>Plants are living things!</h2>
+    <div class="teacher">Teacher idea: Point, repeat, and make a gesture. Keep the English short: <b>Plants grow. Plants need water, air, light and nutrients.</b></div>
+    <div class="cards">
+      <div class="card"><div class="emoji">🌱</div><div class="word">PLANT</div><button class="btn blue" onclick="say('plant')">🔊 Listen</button></div>
+      <div class="card"><div class="emoji">📈</div><div class="word">GROW</div><div class="sentence">Plants grow.</div><button class="btn blue" onclick="say('Plants grow')">🔊 Listen</button></div>
+      <div class="card"><div class="emoji">❤️</div><div class="word">LIVING THING</div><div class="sentence">A plant is a living thing.</div><button class="btn blue" onclick="say('A plant is a living thing')">🔊 Listen</button></div>
+    </div>
+    <div class="center" style="margin-top:18px">
+      <button class="btn green" onclick="say('Plants are living things. Plants grow.')">🎤 Repeat with me</button>
+    </div>
+  </section>
+
+  <section id="parts" class="panel">
+    <h2>Plant Parts 🌿</h2>
+    <p class="big center">Choose a word, then touch the correct part.</p>
+    <div class="plantStage">
+      <div class="labels" id="partLabels">
+        <button class="labelBtn" data-part="roots">ROOTS</button>
+        <button class="labelBtn" data-part="stem">STEM</button>
+        <button class="labelBtn" data-part="leaves">LEAVES</button>
+        <button class="labelBtn" data-part="fruit">FRUIT</button>
+      </div>
+      <div>
+        <svg viewBox="0 0 500 600" aria-label="plant diagram">
+          <rect x="0" y="0" width="500" height="600" rx="25" fill="#e9fbff"/>
+          <rect x="0" y="455" width="500" height="145" fill="#b87842"/>
+          <path d="M250 465 C210 505 205 550 180 585 M250 465 C290 505 300 550 330 585 M250 475 C250 520 250 555 245 592" stroke="#6c441e" stroke-width="12" fill="none"/>
+          <rect x="238" y="195" width="24" height="285" rx="12" fill="#4aa84b"/>
+          <ellipse cx="190" cy="275" rx="80" ry="35" transform="rotate(-25 190 275)" fill="#62c95d"/>
+          <ellipse cx="315" cy="335" rx="80" ry="35" transform="rotate(25 315 335)" fill="#62c95d"/>
+          <ellipse cx="180" cy="365" rx="65" ry="30" transform="rotate(22 180 365)" fill="#62c95d"/>
+          <circle cx="250" cy="145" r="55" fill="#ffd45b"/><circle cx="250" cy="145" r="24" fill="#f39b32"/>
+          <circle cx="330" cy="230" r="34" fill="#ff6d5f"/><path d="M325 196 Q335 175 350 188" stroke="#3f8e42" stroke-width="8" fill="none"/>
+          <circle class="hot" data-part="roots" cx="250" cy="520" r="70"/>
+          <rect class="hot" data-part="stem" x="205" y="190" width="90" height="275" rx="30"/>
+          <ellipse class="hot" data-part="leaves" cx="245" cy="330" rx="155" ry="115"/>
+          <circle class="hot" data-part="fruit" cx="330" cy="230" r="55"/>
+        </svg>
+      </div>
+    </div>
+    <div id="partFeedback" class="feedback center"></div>
+    <div class="center"><button class="btn" onclick="resetParts()">🔄 Play again</button></div>
+  </section>
+
+  <section id="needs" class="panel">
+    <h2>What do plants need? ☀️💧</h2>
+    <div class="cards">
+      <div class="card"><div class="emoji">💧</div><div class="word">WATER</div><button class="btn blue" onclick="say('water')">🔊</button></div>
+      <div class="card"><div class="emoji">☀️</div><div class="word">LIGHT</div><button class="btn blue" onclick="say('light')">🔊</button></div>
+      <div class="card"><div class="emoji">🌬️</div><div class="word">AIR</div><button class="btn blue" onclick="say('air')">🔊</button></div>
+      <div class="card"><div class="emoji">🌎</div><div class="word">NUTRIENTS</div><div class="sentence">from soil</div><button class="btn blue" onclick="say('nutrients')">🔊</button></div>
+    </div>
+    <div class="center" style="margin-top:16px">
+      <p class="big">Does a plant need this?</p>
+      <div id="needQuestion" class="emoji">💧</div>
+      <div id="needWord" class="word">WATER</div>
+      <button class="btn green" onclick="answerNeed(true)">YES 👍</button>
+      <button class="btn red" onclick="answerNeed(false)">NO 👎</button>
+      <div id="needFeedback" class="feedback"></div>
+      <div class="score">Score: <span id="needScore">0</span></div>
+    </div>
+  </section>
+
+  <section id="living" class="panel">
+    <h2>Living or Not Living? ❤️🪨</h2>
+    <div class="center">
+      <div id="livingEmoji" class="emoji">🌱</div>
+      <div id="livingName" class="word">PLANT</div>
+      <button class="btn green" onclick="answerLiving(true)">LIVING ❤️</button>
+      <button class="btn red" onclick="answerLiving(false)">NOT LIVING 🪨</button>
+      <div id="livingFeedback" class="feedback"></div>
+      <div class="score">Score: <span id="livingScore">0</span></div>
+    </div>
+  </section>
+
+  <section id="rex" class="panel">
+    <h2>🦖 Rex Plant Rescue Challenge</h2>
+    <p class="big center">Help Rex save the plant!</p>
+    <div class="center">
+      <div id="rexStory" class="teacher">Rex's plant is thirsty. What does it need?</div>
+      <div id="rexPic" class="emoji">🦖🌱😢</div>
+      <div id="rexChoices" class="choiceGrid"></div>
+      <div id="rexFeedback" class="feedback"></div>
+      <div class="score">⭐ <span id="rexScore">0</span> points</div>
+      <div><button class="btn" onclick="nextRex()">Next ➜</button></div>
+    </div>
+    <hr style="margin:22px 0;border:0;border-top:3px dashed #cfe8c9"/>
+    <h3>Bean Germination Experiment 🌱</h3>
+    <div class="experiment">
+      <div class="step"><b>1. Cotton</b>Put cotton in a cup.</div>
+      <div class="step"><b>2. Seed</b>Add one bean.</div>
+      <div class="step"><b>3. Water</b>Add a little water.</div>
+      <div class="step"><b>4. Light</b>Place it near light.</div>
+      <div class="step"><b>5. Observe</b>Draw Day 0.</div>
+    </div>
+    <div class="center" style="margin-top:14px"><button class="btn blue" onclick="say('Put the cotton. Add the seed. Add a little water. Place it near light. Observe and draw.')">🔊 Listen to the steps</button></div>
+  </section>
+</div>
+<script>
+const tabs=[...document.querySelectorAll('.tab')];
+tabs.forEach(t=>t.addEventListener('click',()=>{tabs.forEach(x=>x.classList.remove('active'));document.querySelectorAll('.panel').forEach(x=>x.classList.remove('active'));t.classList.add('active');document.getElementById(t.dataset.tab).classList.add('active')}));
+function say(text){ if('speechSynthesis' in window){ speechSynthesis.cancel(); const u=new SpeechSynthesisUtterance(text);u.lang='en-US';u.rate=.78;u.pitch=1.05;speechSynthesis.speak(u)}}
+let selectedPart=null,partDone=new Set();
+document.querySelectorAll('.labelBtn').forEach(b=>b.onclick=()=>{if(b.classList.contains('done'))return;document.querySelectorAll('.labelBtn').forEach(x=>x.classList.remove('selected'));b.classList.add('selected');selectedPart=b.dataset.part;say(b.textContent)});
+document.querySelectorAll('.hot').forEach(h=>h.onclick=()=>{const f=document.getElementById('partFeedback');if(!selectedPart){f.textContent='Choose a word first!';f.className='feedback center no';return} if(h.dataset.part===selectedPart){partDone.add(selectedPart);document.querySelector('.labelBtn[data-part="'+selectedPart+'"]').classList.add('done');document.querySelector('.labelBtn[data-part="'+selectedPart+'"]').classList.remove('selected');f.textContent='Great! '+selectedPart.toUpperCase()+'! ✅';f.className='feedback center ok';say(selectedPart);selectedPart=null;if(partDone.size===4){f.textContent='Amazing! You built the plant! 🌱⭐';say('Amazing! Roots, stem, leaves and fruit.')}}else{f.textContent='Try again! 👀';f.className='feedback center no'}});
+function resetParts(){selectedPart=null;partDone.clear();document.querySelectorAll('.labelBtn').forEach(x=>x.classList.remove('selected','done'));document.getElementById('partFeedback').textContent=''}
+const needItems=[['💧','WATER',true],['☀️','LIGHT',true],['🌬️','AIR',true],['🌎','NUTRIENTS',true],['🍕','PIZZA',false],['🍭','CANDY',false],['🧸','TOY',false],['📱','PHONE',false]];let needIndex=0,needScore=0;
+function showNeed(){const x=needItems[needIndex%needItems.length];document.getElementById('needQuestion').textContent=x[0];document.getElementById('needWord').textContent=x[1];document.getElementById('needFeedback').textContent='';say(x[1])}
+function answerNeed(v){const x=needItems[needIndex%needItems.length];const ok=v===x[2];if(ok)needScore++;document.getElementById('needFeedback').textContent=ok?'Yes! Great job! ✅':'Oops! Try the next one 🌱';document.getElementById('needFeedback').className='feedback '+(ok?'ok':'no');document.getElementById('needScore').textContent=needScore;needIndex++;setTimeout(showNeed,700)}showNeed();
+const livingItems=[['🌱','PLANT',true],['🐶','DOG',true],['🌳','TREE',true],['🦋','BUTTERFLY',true],['🪨','ROCK',false],['🪑','CHAIR',false],['🚗','CAR',false],['✏️','PENCIL',false]];let livingIndex=0,livingScore=0;
+function showLiving(){const x=livingItems[livingIndex%livingItems.length];document.getElementById('livingEmoji').textContent=x[0];document.getElementById('livingName').textContent=x[1];document.getElementById('livingFeedback').textContent='';say(x[1])}
+function answerLiving(v){const x=livingItems[livingIndex%livingItems.length];const ok=v===x[2];if(ok)livingScore++;document.getElementById('livingFeedback').textContent=ok?'Correct! ✅':'Try the next one! 🌟';document.getElementById('livingFeedback').className='feedback '+(ok?'ok':'no');document.getElementById('livingScore').textContent=livingScore;livingIndex++;setTimeout(showLiving,700)}showLiving();
+const rexQs=[
+ {story:"Rex's plant is thirsty. What does it need?",pic:"🦖🌱😢",choices:["💧 WATER","🍕 PIZZA","🧸 TOY","📱 PHONE"],ans:0},
+ {story:"The plant is in a dark box. What does it need?",pic:"📦🌱",choices:["☀️ LIGHT","🍭 CANDY","🚗 CAR","🎈 BALLOON"],ans:0},
+ {story:"Which part is under the soil?",pic:"🌱🌎",choices:["ROOTS","FRUIT","LEAVES","FLOWER"],ans:0},
+ {story:"Which part holds the plant up?",pic:"🌿",choices:["STEM","ROOTS","FRUIT","SOIL"],ans:0},
+ {story:"Which part is green and makes food for the plant?",pic:"🍃",choices:["LEAVES","ROOTS","FRUIT","ROCK"],ans:0},
+ {story:"Which one can grow?",pic:"🌱❓🪨",choices:["PLANT","ROCK","CHAIR","PENCIL"],ans:0},
+ {story:"Plants are...",pic:"🌱❤️",choices:["LIVING THINGS","TOYS","ROCKS","CARS"],ans:0},
+ {story:"What do roots take in from the soil?",pic:"🌱💧",choices:["WATER & NUTRIENTS","PIZZA","SUNGLASSES","TOYS"],ans:0}
+];let rexIndex=0,rexScore=0;
+function nextRex(){const q=rexQs[rexIndex%rexQs.length];document.getElementById('rexStory').textContent=q.story;document.getElementById('rexPic').textContent=q.pic;const c=document.getElementById('rexChoices');c.innerHTML='';q.choices.forEach((x,i)=>{const b=document.createElement('button');b.className='choice';b.textContent=x;b.onclick=()=>{const ok=i===q.ans;if(ok){rexScore++;b.classList.add('good');document.getElementById('rexFeedback').textContent='Great job! ✅'}else{b.classList.add('bad');document.getElementById('rexFeedback').textContent='Try again! 👀'}document.getElementById('rexScore').textContent=rexScore;say(ok?'Great job': 'Try again')};c.appendChild(b)});document.getElementById('rexFeedback').textContent='';rexIndex++}nextRex();
+</script>
+</body>
+</html>
