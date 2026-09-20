@@ -106,20 +106,10 @@
       border-radius:14px;background:rgba(255,255,255,.26);border:2px dashed rgba(23,53,45,.10);
       display:grid;place-items:center;min-width:0
     }
-    .map-cell.path{background:rgba(255,247,211,.72)}
-    .map-edge{
-      position:absolute;font-weight:1000;font-size:clamp(14px,2.8vw,20px);background:#fff;border:3px solid #17352d;
-      border-radius:999px;padding:4px 9px;z-index:4
-    }
-    .map-edge.n{top:7px;left:50%;transform:translateX(-50%)}
-    .map-edge.s{bottom:7px;left:50%;transform:translateX(-50%)}
-    .map-edge.e{right:7px;top:50%;transform:translateY(-50%)}
-    .map-edge.w{left:7px;top:50%;transform:translateY(-50%)}
-    .game-piece{
+    .map-cell.path{background:rgba(255,247,211,.72)}.game-piece{
       font-size:clamp(34px,8vw,68px);line-height:1;filter:drop-shadow(0 4px 2px rgba(0,0,0,.15));
       transition:transform .45s ease,opacity .2s ease;z-index:3
     }
-    .game-piece.rex{grid-column:3;grid-row:3}
     .game-piece.target{animation:bob 1s ease-in-out infinite}
     .game-piece.move-n{transform:translateY(-205%)}
     .game-piece.move-s{transform:translateY(205%)}
@@ -259,10 +249,6 @@
       <div class="quest-wrap">
         <div class="quest-label" id="mission">Help Rex get to the ⭐!</div>
         <div class="game-map" id="gameMap" aria-label="Direction challenge map">
-          <span class="map-edge n">N</span>
-          <span class="map-edge s">S</span>
-          <span class="map-edge e">E</span>
-          <span class="map-edge w">W</span>
         </div>
         <div class="question-line" id="prompt">The ⭐ is ______ of Rex.</div>
         <div class="round-tag">Choose the correct cardinal direction.</div>
@@ -372,7 +358,7 @@
   }
   document.getElementById('startCompass').addEventListener('click',startCompass);
 
-  let target='NORTH',score=0,streak=0,roundNo=1,last='';
+  let target='NORTH',score=0,streak=0,roundNo=1,last='',questionMode='objectFromRex';
   const dirs=['NORTH','SOUTH','EAST','WEST'];
   const treasures=['⭐','🎁','🍎','🌻','🥚','🏠','💎','🍉','⚽','🦴'];
   const prompt=document.getElementById('prompt');
@@ -383,45 +369,83 @@
   const feedback=document.getElementById('feedback');
   const gameMap=document.getElementById('gameMap');
 
-  const targetGrid={
-    NORTH:{row:1,col:3,move:'move-n'},
-    SOUTH:{row:5,col:3,move:'move-s'},
-    EAST:{row:3,col:5,move:'move-e'},
-    WEST:{row:3,col:1,move:'move-w'}
-  };
+  const opposite={NORTH:'SOUTH',SOUTH:'NORTH',EAST:'WEST',WEST:'EAST'};
+  const moveClass={NORTH:'move-n',SOUTH:'move-s',EAST:'move-e',WEST:'move-w'};
+
+  function makePositions(dir){
+    // Vary Rex's location so children cannot rely on "top/bottom of the whole screen".
+    let rex={row:3,col:3}, item={row:3,col:3};
+    if(dir==='NORTH'){
+      rex={row:4+Math.floor(Math.random()*2),col:2+Math.floor(Math.random()*3)};
+      item={row:1+Math.floor(Math.random()*2),col:rex.col};
+    }else if(dir==='SOUTH'){
+      rex={row:1+Math.floor(Math.random()*2),col:2+Math.floor(Math.random()*3)};
+      item={row:4+Math.floor(Math.random()*2),col:rex.col};
+    }else if(dir==='EAST'){
+      rex={row:2+Math.floor(Math.random()*3),col:1+Math.floor(Math.random()*2)};
+      item={row:rex.row,col:4+Math.floor(Math.random()*2)};
+    }else{
+      rex={row:2+Math.floor(Math.random()*3),col:4+Math.floor(Math.random()*2)};
+      item={row:rex.row,col:1+Math.floor(Math.random()*2)};
+    }
+    return {rex,item};
+  }
 
   function buildMap(dir,emoji){
     [...gameMap.querySelectorAll('.map-cell,.game-piece,.map-scenery')].forEach(n=>n.remove());
     for(let r=1;r<=5;r++){
       for(let col=1;col<=5;col++){
         const cell=document.createElement('div');
-        cell.className='map-cell'+((r===3||col===3)?' path':'');
+        cell.className='map-cell';
         cell.style.gridRow=r;cell.style.gridColumn=col;
         gameMap.appendChild(cell);
       }
     }
 
-    const scenery=[
-      ['🌳',1,1],['🌼',5,1],['🪨',1,5],['🌲',5,5]
-    ];
-    scenery.forEach(([icon,r,col])=>{
+    const {rex:rexPos,item:itemPos}=makePositions(dir);
+    gameMap.dataset.rexRow=rexPos.row;gameMap.dataset.rexCol=rexPos.col;
+    gameMap.dataset.itemRow=itemPos.row;gameMap.dataset.itemCol=itemPos.col;
+
+    // Distractors make children inspect relative position, not memorize a fixed layout.
+    const occupied=new Set([rexPos.row+'-'+rexPos.col,itemPos.row+'-'+itemPos.col]);
+    const sceneryIcons=['🌳','🌼','🪨','🌲','☁️','🌵'];
+    let added=0;
+    while(added<4){
+      const r=1+Math.floor(Math.random()*5),col=1+Math.floor(Math.random()*5),key=r+'-'+col;
+      if(occupied.has(key))continue;
+      occupied.add(key);
       const s=document.createElement('div');s.className='map-scenery';
-      s.textContent=icon;s.style.gridRow=r;s.style.gridColumn=col;gameMap.appendChild(s);
-    });
+      s.textContent=sceneryIcons[added%sceneryIcons.length];
+      s.style.gridRow=r;s.style.gridColumn=col;gameMap.appendChild(s);added++;
+    }
 
     const rex=document.createElement('div');
     rex.className='game-piece rex';rex.id='rexPiece';rex.textContent='🦖';
+    rex.style.gridRow=rexPos.row;rex.style.gridColumn=rexPos.col;
     rex.setAttribute('aria-label','Rex');gameMap.appendChild(rex);
 
-    const pos=targetGrid[dir];
     const t=document.createElement('div');
     t.className='game-piece target';t.id='targetPiece';t.textContent=emoji;
-    t.style.gridRow=pos.row;t.style.gridColumn=pos.col;
+    t.style.gridRow=itemPos.row;t.style.gridColumn=itemPos.col;
     t.setAttribute('aria-label','Target '+emoji);gameMap.appendChild(t);
   }
 
-  function questionText(emoji){
-    return 'The '+emoji+' is where from Rex? Choose North, South, East, or West.';
+  function spokenQuestion(emoji){
+    if(questionMode==='objectFromRex'){
+      return 'Where is the '+emoji+' from Rex? Choose North, South, East, or West.';
+    }
+    return 'Where is Rex from the '+emoji+'? Choose North, South, East, or West.';
+  }
+
+  function setQuestion(emoji){
+    questionMode=Math.random()<0.65?'objectFromRex':'rexFromObject';
+    if(questionMode==='objectFromRex'){
+      prompt.textContent='Where is the '+emoji+' from Rex?';
+      mission.textContent='Find the direction of the '+emoji+'!';
+    }else{
+      prompt.textContent='Where is Rex from the '+emoji+'?';
+      mission.textContent='Careful! Now find Rex from the '+emoji+'!';
+    }
   }
 
   function nextChallenge(sayIt=true){
@@ -438,38 +462,42 @@
     last=target;
     const emoji=treasures[(roundNo-1)%treasures.length];
     buildMap(target,emoji);
-    mission.textContent='Help Rex get to the '+emoji+'!';
-    prompt.textContent='The '+emoji+' is ______ of Rex.';
-    feedback.textContent='Look carefully at the map! 🧭';
+    setQuestion(emoji);
+    feedback.textContent='Look carefully. No clues on the map! 🧭';
     roundEl.textContent=roundNo;
-    if(sayIt)speak(questionText(emoji));
+    if(sayIt)speak(spokenQuestion(emoji));
+  }
+
+  function correctAnswer(){
+    return questionMode==='objectFromRex'?target:opposite[target];
   }
 
   function answer(dir){
     if(roundNo>10)return;
     const emoji=treasures[(roundNo-1)%treasures.length];
-    if(dir===target){
+    const right=correctAnswer();
+    if(dir===right){
       score++;streak++;
       scoreEl.textContent=score;streakEl.textContent=streak;
-      feedback.textContent='YES! '+target+'! Rex found it! ⭐';
+      feedback.textContent='YES! '+right+'! ⭐';
       feedback.classList.remove('celebrate');void feedback.offsetWidth;feedback.classList.add('celebrate');
       const rex=document.getElementById('rexPiece');
-      if(rex) rex.classList.add(targetGrid[target].move);
+      if(rex && questionMode==='objectFromRex') rex.classList.add(moveClass[target]);
       beep(700,.09);
-      speak('Yes! '+target+'!');
+      speak('Yes! '+right+'!');
       roundNo++;
-      setTimeout(()=>nextChallenge(true),900);
+      setTimeout(()=>nextChallenge(true),950);
     }else{
       streak=0;streakEl.textContent=streak;
-      feedback.textContent='Oops! Look again. Which way is the '+emoji+'? 💪';
+      feedback.textContent='Not yet! Look at Rex and the '+emoji+' again. 💪';
       beep(210,.09);
-      speak('Try again. Look at the map.');
+      speak('Try again. Look carefully.');
     }
   }
 
   document.querySelectorAll('.answer').forEach(b=>b.addEventListener('click',()=>answer(b.dataset.dir)));
   document.getElementById('repeatChallenge').addEventListener('click',()=>{
-    if(roundNo<=10)speak(questionText(treasures[(roundNo-1)%treasures.length]));
+    if(roundNo<=10)speak(spokenQuestion(treasures[(roundNo-1)%treasures.length]));
   });
   document.getElementById('resetGame').addEventListener('click',()=>{
     target='NORTH';score=0;streak=0;roundNo=1;last='';
