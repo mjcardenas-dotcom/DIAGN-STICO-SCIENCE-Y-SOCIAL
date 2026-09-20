@@ -1,10 +1,154 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Rex English Lab</title><style>
-:root{--n:#1f456a;--g:#5d8b64;--b:#dbe6ec;--bg:#f4f8f9}*{box-sizing:border-box}body{margin:0;font-family:Arial,sans-serif;background:var(--bg);color:#23384c}button{font:inherit;cursor:pointer}.app{max-width:1080px;margin:auto;padding:14px}.hero,.card,.panel{background:#fff;border:1px solid var(--b);border-radius:22px;box-shadow:0 8px 24px #1f456a12}.hero{padding:18px;display:grid;grid-template-columns:1.2fr .8fr;gap:14px;align-items:center}h1,h2,h3{color:var(--n)}.hero h1{font-size:clamp(28px,5vw,45px);margin:0}.hero p,.card p{color:#627685}.hero img{width:100%;max-height:260px;object-fit:contain;border-radius:18px}.controls,.actions{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;margin-top:10px}.btn{border:0;border-radius:13px;padding:10px 13px;font-weight:800}.pri{background:var(--n);color:#fff}.sec{background:#fff;border:1px solid #b9cbd5;color:var(--n)}.good{background:var(--g);color:#fff}.games{display:grid;grid-template-columns:repeat(2,1fr);gap:11px;margin-top:12px}.card{padding:15px;text-align:left}.card h2{margin:0}.tag{display:inline-block;background:#eef8ef;color:#3e6c45;padding:5px 9px;border-radius:999px;font-size:12px;font-weight:800}.panel{display:none;margin-top:14px;padding:16px}.panel.on{display:block}.top{display:flex;justify-content:space-between;align-items:center}.bar{height:11px;background:#edf2f4;border-radius:999px;overflow:hidden;margin:10px 0 14px}.bar div{height:100%;background:var(--g);width:0}.inst{display:flex;gap:10px;align-items:center;background:#eef6fb;border-radius:17px;padding:12px;margin-bottom:10px}.inst .ico{font-size:27px}.inst h3,.inst p{margin:0}.inst p{color:#557082;margin-top:3px}.box{background:#fff;border:1px solid var(--b);border-radius:20px;padding:14px}.prompt{font-size:clamp(24px,4vw,36px);font-weight:900;color:var(--n);text-align:center;margin-bottom:10px}.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:10px}.choice{background:#fff;border:2px solid var(--b);border-radius:17px;padding:7px;min-height:170px}.choice img,.scene img{width:100%;max-height:250px;object-fit:contain;border-radius:14px}.choice.ok{background:#edf8ef;border-color:#90c19b}.choice.bad{background:#fff2f0;border-color:#d79e96}.fb{display:none;padding:10px;border-radius:12px;margin-top:10px;font-weight:800}.fb.show{display:block}.fb.ok{background:#edf8ef;color:#255b38}.fb.try{background:#fff6e8;color:#845c0c}.scene{display:flex;justify-content:center;background:#f7fafb;border:1px dashed #d1e0e6;border-radius:17px;padding:8px}.line,.bank{display:flex;gap:7px;flex-wrap:wrap;justify-content:center;padding:10px;border-radius:15px;min-height:64px}.line{background:#fff8e9;border:2px dashed #ddc88c;margin:11px 0}.bank{background:#f7fafb;border:1px dashed #b9cbd5}.word{border:1px solid #bdcfd8;background:#fff;color:var(--n);font-weight:800;border-radius:11px;padding:9px 11px}.word.used{opacity:.3;pointer-events:none}.result{text-align:center}.small{text-align:center;color:#637988;font-size:13px}.large{font-size:19px}@media(max-width:720px){.hero,.games,.choices{grid-template-columns:1fr}}
-</style></head><body><main class="app"><section id="home" class="hero"><div><h1>Rex English Lab 🦖</h1><p>Family · Class Rules · Personal Pronouns · Possessive Adjectives · Numbers 1–20 · Classroom Actions · We are = We’re</p><div class="controls"><button id="big" class="btn sec">🔎 Bigger text</button><button id="readHome" class="btn pri">🔊 Read topics</button></div></div><img id="heroImg"></section><section id="menu" class="games"><button class="card" data-g="reading"><h2>📖 Picture Reader</h2><p>Read and choose the correct cartoon picture.</p><span class="tag">Reading</span></button><button class="card" data-g="listening"><h2>👂 Listen and Touch</h2><p>Listen and choose the correct picture.</p><span class="tag">Listening</span></button><button class="card" data-g="speaking"><h2>🗣️ Say It with Rex</h2><p>Look at the question and picture, then answer aloud.</p><span class="tag">Speaking</span></button><button class="card" data-g="ordering"><h2>✏️ Sentence Builder</h2><p>Ten activities to order sentences.</p><span class="tag">Writing</span></button><button class="card" data-g="weare"><h2>👫 We are = We’re</h2><p>Practice first person plural.</p><span class="tag">Special focus</span></button><button class="card" data-g="mix"><h2>⭐ Rex 4-Skills Challenge</h2><p>Mixed review of all four skills.</p><span class="tag">Review</span></button></section><section id="panel" class="panel"><div class="top"><button id="back" class="btn sec">← Home</button><b id="stars">⭐ 0</b></div><div class="bar"><div id="bar"></div></div><div id="area"></div></section></main><script src="family.js"></script><script src="pronouns.js"></script><script src="possessive.js"></script><script src="rules.js"></script><script src="actions.js"></script><script src="numbers.js"></script><script>
-const A=window.REX_ASSETS; const $=s=>document.querySelector(s),$$=s=>document.querySelectorAll(s);let st={};function say(t){if(!speechSynthesis)return; speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang='en-US';u.rate=.85;speechSynthesis.speak(u)}function sh(a){return a.slice().sort(()=>Math.random()-.5)}function arr(o){return Object.entries(o).map(([label,src])=>({label,src}))}function opts(c,p){return sh([c,...sh(p.filter(x=>x.label!==c.label)).slice(0,3)])}const F=arr(A.family),P=arr(A.pronouns),O=arr(A.possessive),C=arr(A.actions),R=arr(A.rules),N=arr(A.numbers);function pic(s){return `<img src="${s}" alt="">`}
-function reading(){return [{s:'r',p:'mom',i:'Read the word. Touch the correct picture.',a:F[0],c:opts(F[0],F)},{s:'r',p:'She is my sister.',i:'Read the sentence. Touch the correct picture.',a:F[2],c:opts(F[2],F)},{s:'r',p:'we',i:'Read the pronoun. Touch the correct picture.',a:P[4],c:opts(P[4],P)},{s:'r',p:'her',i:'Read the possessive adjective. Touch the correct picture.',a:O[3],c:opts(O[3],O)},{s:'r',p:'Raise your hand',i:'Read the class rule. Touch the correct picture.',a:R[2],c:opts(R[2],R)},{s:'r',p:'drawing',i:'Read the action. Touch the correct picture.',a:C[2],c:opts(C[2],C)}]}function listening(){return [{s:'l',p:'Listen and choose.',i:'Press read. Listen and choose.',say:'Dad',a:F[1],c:opts(F[1],F)},{s:'l',p:'Listen and choose.',i:'Press read. Listen and choose.',say:'Be kind',a:R[0],c:opts(R[0],R)},{s:'l',p:'Listen and choose.',i:'Press read. Listen and choose.',say:'She',a:P[3],c:opts(P[3],P)},{s:'l',p:'Listen and choose.',i:'Press read. Listen and choose.',say:'Our',a:O[4],c:opts(O[4],O)},{s:'l',p:'Listen and choose.',i:'Press read. Listen and choose.',say:'Seventeen',a:N[6],c:opts(N[6],N)},{s:'l',p:'Listen and choose.',i:'Press read. Listen and choose.',say:'Coloring',a:C[7],c:opts(C[7],C)}]}function speaking(){return [{s:'s',q:'Who is she?',img:F[0].src,m:'She is my mom.'},{s:'s',q:'Who is he?',img:F[1].src,m:'He is my dad.'},{s:'s',q:'What are you doing?',img:C[0].src,m:'I am writing.'},{s:'s',q:'What are you doing?',img:C[2].src,m:'I am drawing.'},{s:'s',q:'What are we doing?',img:P[4].src,m:'We are reading.'},{s:'s',q:'What are they doing?',img:P[5].src,m:'They are reading.'}]}function ordering(){return [{s:'o',w:['She','is','my','mom.'],a:'She is my mom.',img:F[0].src,h:'Start with She'},{s:'o',w:['He','is','my','dad.'],a:'He is my dad.',img:F[1].src,h:'Start with He'},{s:'o',w:['This','is','her','ruler.'],a:'This is her ruler.',img:O[3].src,h:'Use This is'},{s:'o',w:['This','is','our','book.'],a:'This is our book.',img:O[4].src,h:'Use our'},{s:'o',w:['These','are','their','toys.'],a:'These are their toys.',img:O[5].src,h:'Use their'},{s:'o',w:['I','am','drawing.'],a:'I am drawing.',img:C[2].src,h:'Use I am'},{s:'o',w:['We','are','reading.'],a:'We are reading.',img:C[1].src,h:'Use We are'},{s:'o',w:['They','are','coloring.'],a:'They are coloring.',img:C[7].src,h:'Use They are'},{s:'o',w:['Raise','your','hand.'],a:'Raise your hand.',img:R[2].src,h:'This is a class rule'},{s:'o',w:['Do','your','best.'],a:'Do your best.',img:R[3].src,h:'This is a class rule'}]}function weare(){return [{s:'r',p:'we',i:'Read the pronoun. Touch the correct picture.',a:P[4],c:opts(P[4],P)},{s:'o',w:['We','are','classmates.'],a:'We are classmates.',img:P[4].src,h:'Use We are'},{s:'o',w:["We’re",'classmates.'],a:"We’re classmates.",img:P[4].src,h:'Use the short form'},{s:'s',q:'What are we doing?',img:C[1].src,m:'We are reading.'},{s:'o',w:['We','are','=','We’re'],a:'We are = We’re',img:P[4].src,h:'Long form and short form'}]}function mix(){return sh([...reading().slice(0,2),...listening().slice(0,2),...speaking().slice(0,2),...ordering().slice(0,4)]).slice(0,10)}const mk={reading,listening,speaking,ordering,weare,mix};function top(){$('#stars').textContent='⭐ '+st.score;$('#bar').style.width=(st.i/st.q.length*100)+'%'}function start(g){st={g,q:mk[g](),i:0,score:0,d:false};$('#panel').classList.add('on');top();render();$('#panel').scrollIntoView({behavior:'smooth'})}function home(){$('#panel').classList.remove('on');$('#area').innerHTML='';scrollTo({top:0,behavior:'smooth'})}function award(){if(!st.d){st.score++;st.d=true;top()}}function fb(t,o){let f=$('#fb');f.className='fb show '+(o?'ok':'try');f.textContent=t}function next(){st.i++;st.d=false;top();st.i>=st.q.length?finish():render()}function head(ic,t,x){return `<div class="inst"><div class="ico">${ic}</div><div><h3>${t}</h3><p>${x}</p></div><button id="read" class="btn pri">🔊 Read</button></div>`}
-function choice(q,title,ic,spoken){let h=head(ic,title,q.i)+`<div class="box"><div class="prompt">${q.p}</div><div class="choices">`;q.c.forEach((x,i)=>h+=`<button class="choice" data-i="${i}">${pic(x.src)}</button>`);h+=`</div><div id="fb" class="fb"></div><div class="actions"><button id="next" class="btn good" disabled>Next →</button></div></div>`;$('#area').innerHTML=h;$('#read').onclick=()=>say(spoken||q.p);if(spoken)setTimeout(()=>say(spoken),250);$$('.choice').forEach((b,i)=>b.onclick=()=>{let x=q.c[i];if(x.label===q.a.label){b.classList.add('ok');award();fb('Great job!',1);$('#next').disabled=false}else{b.classList.add('bad');fb('Try again.',0)}});$('#next').onclick=next}
-function speakQ(q){$('#area').innerHTML=head('🗣️','Speaking','Look at the question and the picture. Say the answer aloud.')+`<div class="box"><div class="prompt">${q.q}</div><div class="scene">${pic(q.img)}</div><div class="small">No answer is written on the picture.</div><div id="fb" class="fb"></div><div class="actions"><button id="hearQ" class="btn sec">🔊 Hear question</button><button id="hearM" class="btn sec">🎧 Hear model</button><button id="said" class="btn good">🗣️ I said it!</button><button id="next" class="btn pri" disabled>Next →</button></div></div>`;$('#read').onclick=$('#hearQ').onclick=()=>say(q.q);$('#hearM').onclick=()=>say(q.m);$('#said').onclick=()=>{award();fb('Nice speaking!',1);$('#next').disabled=false};$('#next').onclick=next}
-function orderQ(q){let pool=sh(q.w.map((w,i)=>({w,i}))),built=[];$('#area').innerHTML=head('✏️','Sentence Builder','Tap the words in order to build the sentence.')+`<div class="box"><div class="scene">${pic(q.img)}</div><div id="line" class="line"></div><div id="bank" class="bank"></div><div id="fb" class="fb"></div><div class="actions"><button id="undo" class="btn sec">↶ Undo</button><button id="hint" class="btn sec">💡 Hint</button><button id="check" class="btn good">Check ✓</button><button id="next" class="btn pri" disabled>Next →</button></div></div>`;$('#read').onclick=()=>say('Build the sentence.');function draw(){$('#line').innerHTML='';built.forEach(x=>{let s=document.createElement('span');s.className='word';s.textContent=x.w;$('#line').appendChild(s)})}pool.forEach((x,k)=>{let b=document.createElement('button');b.className='word';b.textContent=x.w;b.dataset.k=k;b.onclick=()=>{built.push(x);b.classList.add('used');draw()};$('#bank').appendChild(b)});$('#undo').onclick=()=>{let x=built.pop();if(!x)return;let k=pool.indexOf(x);$('#bank').querySelector(`[data-k="${k}"]`).classList.remove('used');draw()};$('#hint').onclick=()=>fb(q.h,0);$('#check').onclick=()=>{built.map(x=>x.w).join(' ')===q.a?(award(),fb('Excellent!',1),$('#next').disabled=false):fb('Try again. Check the order.',0)};$('#next').onclick=next}
-function finish(){$('#bar').style.width='100%';$('#area').innerHTML=`<div class="result"><h2>Great job!</h2>${pic(C[1].src)}<p><b>Score:</b> ${st.score} / ${st.q.length}</p><div class="actions"><button id="again" class="btn good">Play again</button><button id="choose" class="btn sec">Choose another game</button></div></div>`;$('#again').onclick=()=>start(st.g);$('#choose').onclick=home;say('Great job')}function render(){let q=st.q[st.i];top();q.s==='r'?choice(q,'Reading','📖'):q.s==='l'?choice(q,'Listening','👂',q.say):q.s==='s'?speakQ(q):orderQ(q)}$('#heroImg').src=C[1].src;$$('[data-g]').forEach(b=>b.onclick=()=>start(b.dataset.g));$('#back').onclick=home;$('#big').onclick=()=>document.body.classList.toggle('large');$('#readHome').onclick=()=>say('Family, class rules, personal pronouns, possessive adjectives, numbers one to twenty, classroom actions, and we are equals we are short form.');
-</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rex English Lab</title>
+<style>
+:root{--navy:#234d70;--green:#668d69;--bg:#f3f7f8;--line:#d8e4e9;--blue:#eef6fb;--cream:#fff8eb;--pink:#fff1f5}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,Helvetica,sans-serif;background:var(--bg);color:#243746}button{font:inherit}
+.app{max-width:1080px;margin:auto;padding:14px}.hero,.card,.screen{background:white;border:1px solid var(--line);border-radius:24px;box-shadow:0 9px 24px #234d7014}
+.hero{display:grid;grid-template-columns:1.25fr .75fr;gap:18px;align-items:center;padding:20px}.hero h1{margin:0;color:var(--navy);font-size:clamp(30px,5vw,48px)}.hero p{color:#617886;line-height:1.45}.hero img{width:100%;max-height:230px;object-fit:contain;border-radius:20px}
+.controls,.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:0;border-radius:14px;padding:11px 14px;font-weight:800;cursor:pointer;min-height:44px}.primary{background:var(--navy);color:white}.secondary{background:white;color:var(--navy);border:1px solid #b8cad4}.good{background:var(--green);color:white}
+.skills{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:12px 0}.skill{background:white;border:1px solid var(--line);border-radius:16px;padding:11px;text-align:center;color:var(--navy);font-weight:900}.skill span{display:block;font-size:27px}
+.games{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.card{padding:16px;text-align:left;cursor:pointer}.card h2{margin:0 0 7px;color:var(--navy)}.card p{margin:0;color:#607584;line-height:1.35}.tag{display:inline-block;margin-top:10px;padding:6px 9px;border-radius:999px;background:#eef7ef;color:#446c49;font-size:12px;font-weight:800}
+.screen{display:none;margin-top:14px;padding:16px}.screen.on{display:block}.top{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.stars{font-weight:900;color:#8b6211}.progress{height:12px;background:#edf2f4;border-radius:999px;overflow:hidden;margin:10px 0 14px}.progress div{height:100%;width:0;background:var(--green)}
+.instruction{display:flex;align-items:center;gap:11px;background:var(--blue);border-radius:18px;padding:13px;margin-bottom:12px}.instruction .icon{font-size:29px;background:white;border:1px solid #cbdde7;border-radius:50%;width:52px;height:52px;display:grid;place-items:center}.instruction h3{margin:0;color:var(--navy)}.instruction p{margin:3px 0 0;color:#557080}.instruction .btn{margin-left:auto}
+.box{background:white;border:1px solid var(--line);border-radius:22px;padding:16px}.prompt{text-align:center;color:var(--navy);font-size:clamp(26px,4vw,38px);font-weight:900;margin:5px 0 12px}.choices{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}.choice{border:2px solid var(--line);background:white;border-radius:18px;padding:8px;cursor:pointer;min-height:180px;overflow:hidden}.choice img{width:100%;height:190px;object-fit:contain;border-radius:14px;animation:floaty 2.8s ease-in-out infinite}.choice.ok{border-color:#79af84;background:#eff9f1}.choice.bad{border-color:#d39890;background:#fff2f0}
+@keyframes floaty{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}@media(prefers-reduced-motion:reduce){.choice img{animation:none}}
+.scene{display:flex;justify-content:center;align-items:center;min-height:245px;border:1px dashed #d5e2e7;border-radius:20px;background:#f8fbfc;padding:10px}.scene img{max-width:100%;max-height:260px;object-fit:contain;border-radius:16px}
+.feedback{display:none;margin-top:11px;padding:11px;border-radius:14px;font-weight:800}.feedback.show{display:block}.feedback.ok{background:#edf8ef;color:#285d37}.feedback.try{background:#fff6e8;color:#8b620e}
+.line,.bank{display:flex;gap:8px;flex-wrap:wrap;justify-content:center;min-height:70px;border-radius:17px;padding:11px}.line{margin:12px 0;background:var(--cream);border:2px dashed #dcc58b}.bank{background:#f6f9fa;border:1px dashed #b7cad4}.word{border:1px solid #bcced7;background:white;color:var(--navy);border-radius:12px;padding:11px 13px;font-weight:900;cursor:pointer}.word.used{opacity:.25;pointer-events:none}
+.actions{justify-content:center;margin-top:12px}.small{color:#687b88;font-size:13px;text-align:center;margin-top:8px}.result{text-align:center;padding:15px}.result img{width:min(300px,100%);border-radius:20px}.result .score{font-size:22px;font-weight:900;color:var(--navy)}
+.nums{display:grid;grid-template-columns:repeat(4,1fr);gap:9px}.num{min-height:100px;border:2px solid var(--line);border-radius:17px;background:white;color:var(--navy);font-weight:900;font-size:42px;cursor:pointer}.num.ok{background:#eff9f1;border-color:#79af84}.num.bad{background:#fff2f0;border-color:#d39890}
+body.large{font-size:19px}body.large .word,body.large .btn{font-size:20px}
+@media(max-width:720px){.hero{grid-template-columns:1fr}.skills{grid-template-columns:repeat(2,1fr)}.games,.choices{grid-template-columns:1fr}.nums{grid-template-columns:repeat(2,1fr)}.instruction{flex-wrap:wrap}.instruction .btn{margin-left:0}}
+</style>
+</head>
+<body>
+<div class="app">
+<section class="hero">
+<div>
+<h1>Rex English Lab 🦖</h1>
+<p>Family · Class Rules · Personal Pronouns · Possessive Adjectives · Numbers 1–20 · Classroom Actions · We are / We’re</p>
+<div class="controls"><button id="big" class="btn secondary">🔎 Bigger text</button><button id="topics" class="btn primary">🔊 Read topics</button></div>
+</div>
+<img src="https://freesvg.org/img/Chidren.png" alt="Cartoon children">
+</section>
+<div class="skills"><div class="skill"><span>📖</span>READING</div><div class="skill"><span>👂</span>LISTENING</div><div class="skill"><span>🗣️</span>SPEAKING</div><div class="skill"><span>✏️</span>WRITING</div></div>
+<section class="games">
+<button class="card" data-game="reading"><h2>Picture Reader</h2><p>Read and choose the correct cartoon picture.</p><span class="tag">Reading · 7 rounds</span></button>
+<button class="card" data-game="listening"><h2>Listen & Touch</h2><p>Listen as many times as needed, then choose.</p><span class="tag">Listening · 7 rounds</span></button>
+<button class="card" data-game="speaking"><h2>Say It with Rex</h2><p>Look at the question and picture, then answer aloud. No answer appears on screen.</p><span class="tag">Speaking · 6 rounds</span></button>
+<button class="card" data-game="ordering"><h2>Sentence Builder</h2><p>Order lots of sentences using word cards.</p><span class="tag">Writing · 14 rounds</span></button>
+<button class="card" data-game="weare"><h2>We are = We’re</h2><p>First person plural with speaking and sentence ordering.</p><span class="tag">Special focus · 6 rounds</span></button>
+<button class="card" data-game="mix"><h2>Rex 4-Skills Challenge</h2><p>A mixed review with all four skills.</p><span class="tag">4 skills · 10 rounds</span></button>
+</section>
+<section id="screen" class="screen">
+<div class="top"><button id="home" class="btn secondary">← Home</button><div id="stars" class="stars">⭐ 0</div></div>
+<div class="progress"><div id="bar"></div></div><div id="content"></div>
+</section>
+</div>
+<script>
+(function(){
+const IMG={
+mom:"https://freesvg.org/img/1474478625.png",dad:"https://freesvg.org/img/father.png",sister:"https://freesvg.org/img/1403141521.png",brother:"https://freesvg.org/img/Child17.png",grandma:"https://freesvg.org/img/GRANDMOTHER.png",grandpa:"https://freesvg.org/img/1474466250.png",
+group:"https://freesvg.org/img/Chidren.png",classroom:"https://freesvg.org/img/GeoGebra-als-interaktives-Tafelbild.png",
+reading:"https://freesvg.org/img/munch-student-zazou.png",writing:"https://freesvg.org/img/hardatwork3c45.png",hand:"https://openclipart.org/image/800px/217508",glue:"https://freesvg.org/img/Pegamento-2016-01.png"
+};
+const family=[["mom",IMG.mom],["dad",IMG.dad],["sister",IMG.sister],["brother",IMG.brother],["grandma",IMG.grandma],["grandpa",IMG.grandpa]];
+const actions=[["reading",IMG.reading],["writing",IMG.writing],["gluing",IMG.glue],["listening",IMG.classroom]];
+const rules=[["Raise your hand",IMG.hand],["Listen",IMG.classroom],["Be kind",IMG.group],["Do your best",IMG.writing]];
+const $=s=>document.querySelector(s), $$=s=>document.querySelectorAll(s); let S={};
+function say(t,r=.84){if(!("speechSynthesis" in window))return;speechSynthesis.cancel();let u=new SpeechSynthesisUtterance(t);u.lang="en-US";u.rate=r;speechSynthesis.speak(u)}
+function sh(a){return a.slice().sort(()=>Math.random()-.5)}
+function opts(pool,answer){return sh([answer,...sh(pool.filter(x=>x[0]!==answer[0])).slice(0,3)])}
+function qChoice(skill,instruction,prompt,answer,choices,audio){return{skill,instruction,prompt,answer,choices,audio}}
+function reading(){return[
+qChoice("reading","Read the word. Touch the correct picture.","mom",family[0],opts(family,family[0])),
+qChoice("reading","Read the sentence. Touch the correct picture.","She is my sister.",family[2],opts(family,family[2])),
+qChoice("reading","Read the word. Touch the correct picture.","grandpa",family[5],opts(family,family[5])),
+qChoice("reading","Read the class rule. Touch the correct picture.","Raise your hand",rules[0],opts(rules,rules[0])),
+qChoice("reading","Read the action. Touch the correct picture.","reading",actions[0],opts(actions,actions[0])),
+qChoice("reading","Read the action. Touch the correct picture.","writing",actions[1],opts(actions,actions[1])),
+qChoice("reading","Read the action. Touch the correct picture.","gluing",actions[2],opts(actions,actions[2]))
+]}
+function listening(){return[
+qChoice("listening","Listen. Touch the correct picture.","Listen and choose.",family[1],opts(family,family[1]),"dad"),
+qChoice("listening","Listen. Touch the correct picture.","Listen and choose.",family[4],opts(family,family[4]),"grandma"),
+qChoice("listening","Listen. Touch the correct picture.","Listen and choose.",rules[0],opts(rules,rules[0]),"raise your hand"),
+qChoice("listening","Listen. Touch the correct picture.","Listen and choose.",actions[0],opts(actions,actions[0]),"reading"),
+qChoice("listening","Listen. Touch the correct picture.","Listen and choose.",actions[1],opts(actions,actions[1]),"writing"),
+qChoice("listening","Listen. Touch the correct picture.","Listen and choose.",actions[2],opts(actions,actions[2]),"gluing"),
+{skill:"number",instruction:"Listen to the number. Touch it.",audio:"seventeen",answer:"17",choices:["7","12","17","20"]}
+]}
+function speaking(){return[
+{skill:"speaking",question:"Who is she?",image:IMG.mom},
+{skill:"speaking",question:"Who is he?",image:IMG.dad},
+{skill:"speaking",question:"What are you doing?",image:IMG.writing},
+{skill:"speaking",question:"What are you doing?",image:IMG.reading},
+{skill:"speaking",question:"What are we doing?",image:IMG.classroom},
+{skill:"speaking",question:"Who are they?",image:IMG.group}
+]}
+function order(){return[
+["She is my mom.",["She","is","my","mom."],IMG.mom,"Start with She"],
+["He is my dad.",["He","is","my","dad."],IMG.dad,"Start with He"],
+["She is my sister.",["She","is","my","sister."],IMG.sister,"Start with She"],
+["He is my brother.",["He","is","my","brother."],IMG.brother,"Start with He"],
+["This is her ruler.",["This","is","her","ruler."],IMG.sister,"Use her"],
+["This is his backpack.",["This","is","his","backpack."],IMG.brother,"Use his"],
+["This is our classroom.",["This","is","our","classroom."],IMG.classroom,"Use our"],
+["These are their books.",["These","are","their","books."],IMG.group,"Use their"],
+["I am writing.",["I","am","writing."],IMG.writing,"Use I am"],
+["I am reading.",["I","am","reading."],IMG.reading,"Use I am"],
+["We are reading.",["We","are","reading."],IMG.classroom,"Use We are"],
+["They are reading.",["They","are","reading."],IMG.group,"Use They are"],
+["Raise your hand.",["Raise","your","hand."],IMG.hand,"Class rule"],
+["Do your best.",["Do","your","best."],IMG.writing,"Class rule"]
+].map(x=>({skill:"ordering",answer:x[0],words:x[1],image:x[2],hint:x[3]}))}
+function weare(){return[
+{skill:"speaking",question:"Who are we?",image:IMG.classroom},
+{skill:"ordering",answer:"We are classmates.",words:["We","are","classmates."],image:IMG.group,hint:"Use We are"},
+{skill:"ordering",answer:"We're classmates.",words:["We're","classmates."],image:IMG.group,hint:"Use the short form"},
+{skill:"ordering",answer:"We are reading.",words:["We","are","reading."],image:IMG.reading,hint:"Use We are"},
+{skill:"ordering",answer:"We are = We're",words:["We","are","=","We're"],image:IMG.group,hint:"Long form = short form"},
+{skill:"speaking",question:"What are we doing?",image:IMG.classroom}
+]}
+function mix(){return sh([...reading().slice(0,2),...listening().slice(0,2),...speaking().slice(0,2),...order().slice(8,12)]).slice(0,10)}
+const makers={reading,listening,speaking,ordering:order,weare,mix};
+function start(g){S={game:g,qs:makers[g](),i:0,score:0,awarded:false};$("#screen").classList.add("on");update();render();$("#screen").scrollIntoView({behavior:"smooth"})}
+function update(){$("#stars").textContent="⭐ "+S.score;$("#bar").style.width=(S.i/S.qs.length*100)+"%"}
+function reward(){if(!S.awarded){S.score++;S.awarded=true;update()}}
+function fb(t,ok){let f=$("#fb");f.className="feedback show "+(ok?"ok":"try");f.textContent=t}
+function next(){S.i++;S.awarded=false;update();S.i>=S.qs.length?finish():render()}
+function head(icon,title,text){return '<div class="instruction"><div class="icon">'+icon+'</div><div><h3>'+title+'</h3><p>'+text+'</p></div><button id="read" class="btn primary">🔊 Read</button></div>'}
+function renderChoice(q){
+let h=head(q.skill==="reading"?"📖":"👂",q.skill==="reading"?"Reading":"Listening",q.instruction)+'<div class="box"><div class="prompt">'+q.prompt+'</div><div class="choices">';
+q.choices.forEach((c,i)=>h+='<button class="choice" data-i="'+i+'"><img src="'+c[1]+'" alt=""></button>');
+h+='</div><div id="fb" class="feedback"></div><div class="actions"><button id="next" class="btn good" disabled>Next →</button></div></div>';$("#content").innerHTML=h;
+$("#read").onclick=()=>say(q.audio||q.prompt);if(q.skill==="listening")setTimeout(()=>say(q.audio),250);
+$$(".choice").forEach((b,i)=>b.onclick=()=>{if(q.choices[i][0]===q.answer[0]){b.classList.add("ok");reward();fb("Great job!",true);$("#next").disabled=false}else{b.classList.add("bad");fb("Try again.",false)}});$("#next").onclick=next
+}
+function renderNumber(q){
+let h=head("👂","Listening",q.instruction)+'<div class="box"><div class="prompt">Listen and choose.</div><div class="nums">';
+q.choices.forEach(n=>h+='<button class="num" data-n="'+n+'">'+n+'</button>');h+='</div><div id="fb" class="feedback"></div><div class="actions"><button id="again" class="btn secondary">🔊 Replay</button><button id="next" class="btn good" disabled>Next →</button></div></div>';$("#content").innerHTML=h;let play=()=>say(q.audio);$("#read").onclick=play;$("#again").onclick=play;setTimeout(play,250);
+$$(".num").forEach(b=>b.onclick=()=>{if(b.dataset.n===q.answer){b.classList.add("ok");reward();fb("Great listening!",true);$("#next").disabled=false}else{b.classList.add("bad");fb("Listen again.",false)}});$("#next").onclick=next
+}
+function renderSpeak(q){
+$("#content").innerHTML=head("🗣️","Speaking","Look at the question and picture. Answer aloud.")+'<div class="box"><div class="prompt">'+q.question+'</div><div class="scene"><img src="'+q.image+'" alt=""></div><p class="small">No answer is shown. Say it yourself or with your teacher.</p><div id="fb" class="feedback"></div><div class="actions"><button id="hear" class="btn secondary">🔊 Hear question</button><button id="said" class="btn good">🗣️ I said it!</button><button id="next" class="btn primary" disabled>Next →</button></div></div>';
+$("#read").onclick=()=>say(q.question);$("#hear").onclick=()=>say(q.question);$("#said").onclick=()=>{reward();fb("Nice speaking!",true);$("#next").disabled=false};$("#next").onclick=next
+}
+function renderOrder(q){
+let pool=sh(q.words.map((w,i)=>({w,id:i}))),built=[];$("#content").innerHTML=head("✏️","Sentence Builder","Look at the picture. Tap the words in the correct order.")+'<div class="box"><div class="scene"><img src="'+q.image+'" alt=""></div><div id="line" class="line"></div><div id="bank" class="bank"></div><div id="fb" class="feedback"></div><div class="actions"><button id="undo" class="btn secondary">↶ Undo</button><button id="hint" class="btn secondary">💡 Hint</button><button id="check" class="btn good">Check ✓</button><button id="next" class="btn primary" disabled>Next →</button></div></div>';
+let line=$("#line"),bank=$("#bank");function draw(){line.innerHTML="";built.forEach(x=>{let s=document.createElement("span");s.className="word";s.textContent=x.w;line.appendChild(s)})}
+pool.forEach((x,i)=>{let b=document.createElement("button");b.className="word";b.textContent=x.w;b.dataset.i=i;b.onclick=()=>{built.push(x);b.classList.add("used");draw()};bank.appendChild(b)});
+$("#read").onclick=()=>say("Build the sentence.");$("#undo").onclick=()=>{let last=built.pop();if(!last)return;let match=[...bank.children].find(el=>el.textContent===last.w&&el.classList.contains("used"));if(match)match.classList.remove("used");draw()};$("#hint").onclick=()=>fb(q.hint,false);$("#check").onclick=()=>{let formed=built.map(x=>x.w).join(" ");if(formed===q.answer){reward();fb("Excellent!",true);$("#next").disabled=false}else fb("Try again. Check the order.",false)};$("#next").onclick=next
+}
+function render(){let q=S.qs[S.i];update();if(q.skill==="reading"||q.skill==="listening")renderChoice(q);else if(q.skill==="number")renderNumber(q);else if(q.skill==="speaking")renderSpeak(q);else renderOrder(q)}
+function finish(){$("#bar").style.width="100%";$("#content").innerHTML='<div class="result"><h2>Great job! 🦖</h2><img src="'+IMG.group+'" alt=""><p class="score">⭐ '+S.score+" / "+S.qs.length+'</p><p>You practiced Reading, Listening, Speaking and Writing.</p><div class="actions"><button id="again2" class="btn good">Play again</button><button id="choose" class="btn secondary">Choose another game</button></div></div>';$("#again2").onclick=()=>start(S.game);$("#choose").onclick=goHome;say("Great job")}
+function goHome(){$("#screen").classList.remove("on");$("#content").innerHTML="";window.scrollTo({top:0,behavior:"smooth"})}
+$$("[data-game]").forEach(b=>b.onclick=()=>start(b.dataset.game));$("#home").onclick=goHome;$("#big").onclick=()=>document.body.classList.toggle("large");$("#topics").onclick=()=>say("Family, class rules, personal pronouns, possessive adjectives, numbers one to twenty, classroom actions, and we are, we're.")
+})();
+</script>
+</body>
+</html>
