@@ -1,0 +1,177 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<meta name="theme-color" content="#173c2d">
+<title>Rex's Daily Date Challenge</title>
+<style>
+:root{--ink:#173126;--cream:#fffaf0;--card:#ffffff;--green:#2f7d4a;--green2:#49a864;--yellow:#ffd760;--orange:#ff9f43;--red:#e45b5b;--blue:#5aa9e6;--shadow:0 14px 32px rgba(23,49,38,.14)}
+*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Trebuchet MS,Arial,sans-serif;background:linear-gradient(180deg,#dff6d9 0,#fff7d8 100%);color:var(--ink)}
+button{font:inherit}
+body{min-height:100vh;display:flex;justify-content:center;padding:14px}
+.app{width:min(980px,100%);min-height:calc(100vh - 28px);display:flex;flex-direction:column;gap:12px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#173c2d;color:white;border-radius:22px;padding:12px 16px;box-shadow:var(--shadow)}
+.brand{display:flex;align-items:center;gap:12px}.rex{font-size:42px;line-height:1}.brand b{display:block;font-size:clamp(18px,3vw,28px);letter-spacing:.4px}.brand small{display:block;opacity:.86;margin-top:2px;font-weight:700}
+.icon-btn{border:0;background:#ffffff18;color:white;border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900}
+.progress{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.dot{height:10px;border-radius:999px;background:#ffffffaa;border:1px solid #214f3830}.dot.done{background:var(--green)}.dot.now{background:var(--yellow);outline:3px solid #ffd76055}
+main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:12px}
+.panel{background:rgba(255,255,255,.93);border-radius:26px;padding:clamp(16px,3vw,28px);box-shadow:var(--shadow);border:2px solid #fff}
+.mission-tag{display:inline-flex;align-items:center;gap:7px;background:#e9f7e9;color:#23633a;padding:7px 11px;border-radius:999px;font-weight:1000;font-size:13px;letter-spacing:.5px;text-transform:uppercase}
+h1{font-size:clamp(30px,6vw,58px);line-height:1.04;margin:14px 0 8px}.sub{font-size:clamp(16px,2vw,21px);margin:0 0 18px;color:#466355;font-weight:700}
+.options{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.choice{min-height:64px;border:0;border-radius:18px;background:#f2f8ef;color:var(--ink);font-size:clamp(17px,2.4vw,23px);font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #cfe3ca;transition:transform .08s,box-shadow .08s,background .08s}.choice:hover{transform:translateY(-2px)}.choice:active{transform:translateY(3px);box-shadow:0 1px 0 #cfe3ca}.choice.correct{background:#c9f2d2;box-shadow:0 5px 0 #78c88d}.choice.wrong{background:#ffe0e0;box-shadow:0 5px 0 #ef9b9b;animation:shake .22s linear 2}.choice[disabled]{cursor:default}
+.number-grid{grid-template-columns:repeat(7,1fr)}.number-grid .choice{min-width:0;min-height:50px;font-size:18px;border-radius:14px}
+.feedback{min-height:48px;margin-top:16px;border-radius:16px;padding:11px 14px;font-weight:1000;display:flex;align-items:center;gap:9px;background:#f6f6f2;color:#40534a}.feedback.good{background:#d8f6df;color:#1d6a37}.feedback.try{background:#fff0d4;color:#875417}
+.side{display:flex;flex-direction:column;gap:12px}.side-card{background:#173c2d;color:white;border-radius:24px;padding:18px;box-shadow:var(--shadow)}.side-card h2{margin:0 0 10px;font-size:20px}.stars{font-size:30px;letter-spacing:2px;min-height:40px}.tip{background:#fff7cf;color:#534517}.timeline{display:flex;flex-direction:column;gap:8px}.time-chip{padding:9px 10px;border-radius:13px;background:#ffffff14;font-weight:900}.time-chip strong{display:block;font-size:12px;opacity:.72;text-transform:uppercase;letter-spacing:.7px}
+.final{display:none;text-align:center}.final.show{display:block}.final h1{margin-bottom:10px}.date-card{margin:20px auto;max-width:720px;padding:24px;border-radius:24px;background:linear-gradient(135deg,#173c2d,#2f7d4a);color:white;box-shadow:var(--shadow)}.date-card .big{font-size:clamp(27px,5vw,48px);font-weight:1000;line-height:1.12}.date-card p{font-size:18px;font-weight:800;margin:12px 0 0}.restart{border:0;background:var(--yellow);color:#463a11;border-radius:16px;padding:14px 22px;font-weight:1000;font-size:18px;cursor:pointer;box-shadow:0 5px 0 #d8ae2f}.say{display:inline-block;margin-top:10px;padding:8px 12px;background:#ffffff18;border-radius:999px;font-weight:900}
+.confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;top:-18px;width:11px;height:18px;border-radius:3px;animation:fall 1.35s linear forwards}
+@keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
+footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2px}
+@media(max-width:760px){main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.number-grid{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:480px){body{padding:8px}.app{min-height:calc(100vh - 16px)}header{border-radius:18px}.brand small{display:none}.rex{font-size:34px}.panel{border-radius:20px;padding:16px}.side{grid-template-columns:1fr}.options{grid-template-columns:repeat(2,1fr)}.number-grid{grid-template-columns:repeat(5,1fr)}.choice{min-height:56px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="rex">🦖</div><div><b>Rex's Daily Date Challenge</b><small>Think • Tap • Say the date!</small></div></div>
+  <button class="icon-btn" id="soundBtn" type="button" aria-pressed="true">🔊 Sound ON</button>
+</header>
+<div class="progress" id="progress" aria-label="Mission progress"></div>
+<main>
+  <section class="panel" id="gamePanel">
+    <span class="mission-tag" id="missionTag">Mission 1 of 6</span>
+    <h1 id="question">What day is TODAY?</h1>
+    <p class="sub" id="subtitle">Think about the day you came to school today.</p>
+    <div class="options" id="options"></div>
+    <div class="feedback" id="feedback" aria-live="polite">🦖 Rex says: You can do it!</div>
+  </section>
+  <section class="panel final" id="finalPanel">
+    <div style="font-size:72px">🦖⭐</div>
+    <span class="mission-tag">Mission complete!</span>
+    <h1>Great job, Date Explorer!</h1>
+    <p class="sub">Now read the date out loud with your class.</p>
+    <div class="date-card">
+      <div class="big" id="fullDate"></div>
+      <div class="say">🗣️ Say it together!</div>
+      <p id="yesterdayTomorrow"></p>
+    </div>
+    <button class="restart" id="restartBtn" type="button">PLAY AGAIN ↻</button>
+  </section>
+  <aside class="side">
+    <div class="side-card"><h2>⭐ Rex Stars</h2><div class="stars" id="stars">☆ ☆ ☆ ☆ ☆ ☆</div><div id="scoreText">0 of 6 missions</div></div>
+    <div class="side-card tip"><h2>💡 Thinking Tip</h2><div id="tipText">Say the days of the week in order.</div></div>
+    <div class="side-card"><h2>⏳ Time Travel</h2><div class="timeline" id="timeline"><div class="time-chip"><strong>Yesterday</strong>???</div><div class="time-chip"><strong>Today</strong>???</div><div class="time-chip"><strong>Tomorrow</strong>???</div></div></div>
+  </aside>
+</main>
+<footer>Made for quick daily classroom practice • Works offline after loading</footer>
+</div>
+<div class="confetti" id="confetti"></div>
+<script>
+(() => {
+  const DAYS=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const MONTHS=['January','February','March','April','May','June','July','August','September','October','November','December'];
+  const nowParts = new Intl.DateTimeFormat('en-US',{timeZone:'America/Guayaquil',year:'numeric',month:'numeric',day:'numeric'}).formatToParts(new Date());
+  const part = type => Number(nowParts.find(p=>p.type===type).value);
+  const today = new Date(Date.UTC(part('year'),part('month')-1,part('day'),12));
+  const yesterday = new Date(today); yesterday.setUTCDate(today.getUTCDate()-1);
+  const tomorrow = new Date(today); tomorrow.setUTCDate(today.getUTCDate()+1);
+  const dayName = d => DAYS[d.getUTCDay()];
+  const monthName = d => MONTHS[d.getUTCMonth()];
+  const ordinal = n => { const v=n%100; return n+((v>=11&&v<=13)?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th')); };
+
+  const missions=[
+    {q:'What day is TODAY?',sub:'Think about the day you came to school today.',answer:dayName(today),options:DAYS,tip:'Say the days of the week in order.'},
+    {q:'What day was YESTERDAY?',sub:'Go back one day in your mind.',answer:dayName(yesterday),options:DAYS,tip:'Yesterday is one day BEFORE today.'},
+    {q:'What day is TOMORROW?',sub:'Jump forward one day!',answer:dayName(tomorrow),options:DAYS,tip:'Tomorrow is one day AFTER today.'},
+    {q:'What MONTH is it?',sub:'Choose the month we are in now.',answer:monthName(today),options:MONTHS,tip:'Think about the month on our classroom calendar.'},
+    {q:"What is today's DATE NUMBER?",sub:'Choose the number for today.',answer:String(today.getUTCDate()),options:Array.from({length:new Date(Date.UTC(today.getUTCFullYear(),today.getUTCMonth()+1,0)).getUTCDate()},(_,i)=>String(i+1)),tip:'Look at the date box on the calendar.'},
+    {q:'What YEAR is it?',sub:'Last step! Choose the year.',answer:String(today.getUTCFullYear()),options:[String(today.getUTCFullYear()-1),String(today.getUTCFullYear()),String(today.getUTCFullYear()+1)],tip:'The year changes after December 31.'}
+  ];
+
+  let index=0, sound=true, locked=false;
+  const el=id=>document.getElementById(id);
+  const optionsEl=el('options'), feedback=el('feedback');
+
+  function drawProgress(){
+    el('progress').innerHTML=missions.map((_,i)=>`<span class="dot ${i<index?'done':i===index&&index<missions.length?'now':''}"></span>`).join('');
+    el('stars').textContent=missions.map((_,i)=>i<index?'★':'☆').join(' ');
+    el('scoreText').textContent=`${Math.min(index,6)} of 6 missions`;
+  }
+
+  function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
+  function missionOptions(m){
+    if(index===3){
+      const correct=MONTHS.indexOf(m.answer);
+      const picks=new Set([correct]);
+      while(picks.size<6) picks.add(Math.floor(Math.random()*12));
+      return shuffle([...picks].map(i=>MONTHS[i]));
+    }
+    if(index===4){
+      const n=Number(m.answer), max=m.options.length, picks=new Set([n]);
+      [n-2,n-1,n+1,n+2].forEach(v=>{if(v>=1&&v<=max)picks.add(v)});
+      while(picks.size<10) picks.add(1+Math.floor(Math.random()*max));
+      return [...picks].sort((a,b)=>a-b).map(String);
+    }
+    return shuffle(m.options);
+  }
+
+  function render(){
+    locked=false;
+    drawProgress();
+    if(index>=missions.length){ finish(); return; }
+    const m=missions[index];
+    el('missionTag').textContent=`Mission ${index+1} of 6`;
+    el('question').textContent=m.q;
+    el('subtitle').textContent=m.sub;
+    el('tipText').textContent=m.tip;
+    feedback.className='feedback'; feedback.textContent='🦖 Rex says: Think first, then tap!';
+    optionsEl.className='options'+(index===4?' number-grid':'');
+    optionsEl.innerHTML='';
+    missionOptions(m).forEach(opt=>{
+      const b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=opt; b.addEventListener('click',()=>choose(b,opt,m)); optionsEl.appendChild(b);
+    });
+    updateTimeline();
+  }
+
+  function choose(btn,opt,m){
+    if(locked) return;
+    if(opt===m.answer){
+      locked=true; btn.classList.add('correct');
+      [...optionsEl.children].forEach(b=>b.disabled=true);
+      feedback.className='feedback good'; feedback.textContent=['🌟 Excellent!','🦖 REX-CELLENT!','✅ You got it!','🎉 Great thinking!'][index%4];
+      tone(660); setTimeout(()=>{index++;render();},420);
+    }else{
+      btn.classList.add('wrong'); feedback.className='feedback try';
+      feedback.textContent=index===0?'💡 Try again. Say the days in order!':index===1?'💡 One day BEFORE today. Try again!':index===2?'💡 One day AFTER today. Try again!':'💡 Good try! Check your classroom calendar and choose again.';
+      tone(220); setTimeout(()=>btn.classList.remove('wrong'),500);
+    }
+  }
+
+  function updateTimeline(){
+    const knownY=index>=2, knownT=index>=1, knownTom=index>=3;
+    el('timeline').innerHTML=`<div class="time-chip"><strong>Yesterday</strong>${knownY?dayName(yesterday):'???'}</div><div class="time-chip"><strong>Today</strong>${knownT?dayName(today):'???'}</div><div class="time-chip"><strong>Tomorrow</strong>${knownTom?dayName(tomorrow):'???'}</div>`;
+  }
+
+  function finish(){
+    drawProgress(); el('gamePanel').style.display='none'; el('finalPanel').classList.add('show');
+    el('fullDate').textContent=`Today is ${dayName(today)}, ${monthName(today)} ${ordinal(today.getUTCDate())}, ${today.getUTCFullYear()}.`;
+    el('yesterdayTomorrow').textContent=`Yesterday was ${dayName(yesterday)}. Tomorrow is ${dayName(tomorrow)}.`;
+    el('timeline').innerHTML=`<div class="time-chip"><strong>Yesterday</strong>${dayName(yesterday)}</div><div class="time-chip"><strong>Today</strong>${dayName(today)}</div><div class="time-chip"><strong>Tomorrow</strong>${dayName(tomorrow)}</div>`;
+    el('tipText').textContent='Now say the full date out loud!';
+    tone(880); confetti(); saveStreak();
+  }
+
+  function reset(){ index=0; el('gamePanel').style.display='block'; el('finalPanel').classList.remove('show'); render(); }
+  function tone(freq){ if(!sound) return; try{const A=window.AudioContext||window.webkitAudioContext,c=new A(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=freq;g.gain.setValueAtTime(.05,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.12);o.start();o.stop(c.currentTime+.12)}catch(e){} }
+  function confetti(){ const c=el('confetti'), colors=['#ffd760','#49a864','#5aa9e6','#ff9f43','#e45b5b']; c.innerHTML=''; for(let i=0;i<38;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'vw';p.style.background=colors[i%colors.length];p.style.animationDelay=Math.random()*.3+'s';p.style.transform=`rotate(${Math.random()*180}deg)`;c.appendChild(p)} setTimeout(()=>c.innerHTML='',1800); }
+  function saveStreak(){ try{const key=today.toISOString().slice(0,10);localStorage.setItem('rexDailyDateLast',key)}catch(e){} }
+
+  el('restartBtn').addEventListener('click',reset);
+  el('soundBtn').addEventListener('click',()=>{sound=!sound;el('soundBtn').textContent=sound?'🔊 Sound ON':'🔇 Sound OFF';el('soundBtn').setAttribute('aria-pressed',String(sound));if(sound)tone(500)});
+  render();
+})();
+</script>
+</body>
+</html>
