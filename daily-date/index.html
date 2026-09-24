@@ -129,7 +129,7 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
   function drawProgress(){
     el('progress').innerHTML=missions.map((_,i)=>`<span class="dot ${i<index?'done':i===index&&index<missions.length?'now':''}"></span>`).join('');
     el('stars').textContent=missions.map((_,i)=>i<index?'★':'☆').join(' ');
-    el('scoreText').textContent=`${Math.min(index,6)} of 6 missions`;
+    el('scoreText').textContent=`${Math.min(index,7)} of 7 missions`;
   }
 
   function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
@@ -140,7 +140,7 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
       while(picks.size<6) picks.add(Math.floor(Math.random()*12));
       return shuffle([...picks].map(i=>MONTHS[i]));
     }
-    if(index===4){
+    if(index===5){
       const n=Number(m.answer), max=m.options.length, picks=new Set([n]);
       [n-2,n-1,n+1,n+2].forEach(v=>{if(v>=1&&v<=max)picks.add(v)});
       while(picks.size<10) picks.add(1+Math.floor(Math.random()*max));
@@ -163,13 +163,15 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     drawProgress();
     if(index>=missions.length){ finish(); return; }
     const m=missions[index];
-    el('missionTag').textContent=`Mission ${index+1} of 6`;
+    el('missionTag').textContent=`Mission ${index+1} of 7`;
     el('question').textContent=m.q;
     el('subtitle').textContent=m.sub;
     el('tipText').textContent=m.tip;
     feedback.className='feedback'; feedback.textContent='🦖 Rex says: Think first, then tap!';
     optionsEl.innerHTML='';
     if(m.type==='weather'){
+      el('visualTrack').style.display='none';
+      el('helperRow').style.display='none';
       optionsEl.className='weather-grid';
       m.options.forEach(opt=>{
         const b=document.createElement('button');
@@ -180,6 +182,8 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
         optionsEl.appendChild(b);
       });
     }else{
+      el('visualTrack').style.display='grid';
+      el('helperRow').style.display='flex';
       optionsEl.className='options'+(index===5?' number-grid':'');
       missionOptions(m).forEach(opt=>{
         const b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=opt; b.addEventListener('click',()=>choose(b,opt,m)); optionsEl.appendChild(b);
