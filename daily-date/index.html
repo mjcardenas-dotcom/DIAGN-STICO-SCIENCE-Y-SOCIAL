@@ -16,9 +16,17 @@ header{display:flex;align-items:center;justify-content:space-between;gap:12px;ba
 .brand{display:flex;align-items:center;gap:12px}.rex{font-size:42px;line-height:1}.brand b{display:block;font-size:clamp(18px,3vw,28px);letter-spacing:.4px}.brand small{display:block;opacity:.86;margin-top:2px;font-weight:700}
 .icon-btn{border:0;background:#ffffff18;color:white;border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900}
 .progress{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.dot{height:10px;border-radius:999px;background:#ffffffaa;border:1px solid #214f3830}.dot.done{background:var(--green)}.dot.now{background:var(--yellow);outline:3px solid #ffd76055}
-main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 250px;gap:12px}
+main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:12px}
 .panel{background:rgba(255,255,255,.93);border-radius:26px;padding:clamp(16px,3vw,28px);box-shadow:var(--shadow);border:2px solid #fff}
 .mission-tag{display:inline-flex;align-items:center;gap:7px;background:#e9f7e9;color:#23633a;padding:7px 11px;border-radius:999px;font-weight:1000;font-size:13px;letter-spacing:.5px;text-transform:uppercase}
+.visual-track{display:grid;grid-template-columns:1fr auto 1fr auto 1fr;gap:8px;align-items:center;margin:8px 0 18px}
+.v-card{padding:14px 10px;border-radius:18px;text-align:center;font-weight:1000;background:#eef8ec;border:2px solid #d9edd6;box-shadow:0 5px 0 #d5e9d0}
+.v-card .emoji{font-size:26px;display:block;margin-bottom:2px}
+.v-card small{display:block;font-size:12px;color:#4d695b;margin-top:4px}
+.v-card.active{background:#fff8d4;border-color:#ffd760;box-shadow:0 5px 0 #f1d05a;transform:translateY(-1px)}
+.arrow-step{font-size:28px;font-weight:1000;color:#2f7d4a;text-align:center}
+.helper-row{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 18px}
+.helper-pill{background:#f0f7ff;color:#295c8d;padding:9px 12px;border-radius:999px;font-weight:1000}
 h1{font-size:clamp(30px,6vw,58px);line-height:1.04;margin:14px 0 8px}.sub{font-size:clamp(16px,2vw,21px);margin:0 0 18px;color:#466355;font-weight:700}
 .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.choice{min-height:64px;border:0;border-radius:18px;background:#f2f8ef;color:var(--ink);font-size:clamp(17px,2.4vw,23px);font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #cfe3ca;transition:transform .08s,box-shadow .08s,background .08s}.choice:hover{transform:translateY(-2px)}.choice:active{transform:translateY(3px);box-shadow:0 1px 0 #cfe3ca}.choice.correct{background:#c9f2d2;box-shadow:0 5px 0 #78c88d}.choice.wrong{background:#ffe0e0;box-shadow:0 5px 0 #ef9b9b;animation:shake .22s linear 2}.choice[disabled]{cursor:default}
 .number-grid{grid-template-columns:repeat(7,1fr)}.number-grid .choice{min-width:0;min-height:50px;font-size:18px;border-radius:14px}
@@ -28,7 +36,7 @@ h1{font-size:clamp(30px,6vw,58px);line-height:1.04;margin:14px 0 8px}.sub{font-s
 .confetti{position:fixed;inset:0;pointer-events:none;overflow:hidden}.confetti i{position:absolute;top:-18px;width:11px;height:18px;border-radius:3px;animation:fall 1.35s linear forwards}
 @keyframes fall{to{transform:translateY(110vh) rotate(720deg)}}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}
 footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2px}
-@media(max-width:760px){main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.number-grid{grid-template-columns:repeat(5,1fr)}}
+@media(max-width:760px){main{grid-template-columns:1fr}.side{display:grid;grid-template-columns:1fr 1fr}.number-grid{grid-template-columns:repeat(5,1fr)}.visual-track{grid-template-columns:1fr}.arrow-step{transform:rotate(90deg);font-size:22px;line-height:1}}
 @media(max-width:480px){body{padding:8px}.app{min-height:calc(100vh - 16px)}header{border-radius:18px}.brand small{display:none}.rex{font-size:34px}.panel{border-radius:20px;padding:16px}.side{grid-template-columns:1fr}.options{grid-template-columns:repeat(2,1fr)}.number-grid{grid-template-columns:repeat(5,1fr)}.choice{min-height:56px}}
 </style>
 </head>
@@ -44,6 +52,18 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     <span class="mission-tag" id="missionTag">Mission 1 of 6</span>
     <h1 id="question">What day is TODAY?</h1>
     <p class="sub" id="subtitle">Think about the day you came to school today.</p>
+    <div class="visual-track" id="visualTrack">
+      <div class="v-card" id="cardYesterday"><span class="emoji">⬅️</span>YESTERDAY<small>before today</small></div>
+      <div class="arrow-step">→</div>
+      <div class="v-card active" id="cardToday"><span class="emoji">📍</span>TODAY<small>now</small></div>
+      <div class="arrow-step">→</div>
+      <div class="v-card" id="cardTomorrow"><span class="emoji">➡️</span>TOMORROW<small>after today</small></div>
+    </div>
+    <div class="helper-row" id="helperRow">
+      <div class="helper-pill">⬅️ BEFORE = YESTERDAY</div>
+      <div class="helper-pill">📍 NOW = TODAY</div>
+      <div class="helper-pill">➡️ AFTER = TOMORROW</div>
+    </div>
     <div class="options" id="options"></div>
     <div class="feedback" id="feedback" aria-live="polite">🦖 Rex says: You can do it!</div>
   </section>
@@ -82,9 +102,9 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
   const ordinal = n => { const v=n%100; return n+((v>=11&&v<=13)?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th')); };
 
   const missions=[
-    {q:'What day is TODAY?',sub:'Think about the day you came to school today.',answer:dayName(today),options:DAYS,tip:'Say the days of the week in order.'},
-    {q:'What day was YESTERDAY?',sub:'Go back one day in your mind.',answer:dayName(yesterday),options:DAYS,tip:'Yesterday is one day BEFORE today.'},
-    {q:'What day is TOMORROW?',sub:'Jump forward one day!',answer:dayName(tomorrow),options:DAYS,tip:'Tomorrow is one day AFTER today.'},
+    {q:'What day is TODAY?',sub:'Look at the middle card. TODAY means now.',answer:dayName(today),options:DAYS,tip:'TODAY is happening now.'},
+    {q:'What day was YESTERDAY?',sub:'Look LEFT. YESTERDAY is before today.',answer:dayName(yesterday),options:DAYS,tip:'Yesterday is one day BEFORE today.'},
+    {q:'What day is TOMORROW?',sub:'Look RIGHT. TOMORROW is after today.',answer:dayName(tomorrow),options:DAYS,tip:'Tomorrow is one day AFTER today.'},
     {q:'What MONTH is it?',sub:'Choose the month we are in now.',answer:monthName(today),options:MONTHS,tip:'Think about the month on our classroom calendar.'},
     {q:"What is today's DATE NUMBER?",sub:'Choose the number for today.',answer:String(today.getUTCDate()),options:Array.from({length:new Date(Date.UTC(today.getUTCFullYear(),today.getUTCMonth()+1,0)).getUTCDate()},(_,i)=>String(i+1)),tip:'Look at the date box on the calendar.'},
     {q:'What YEAR is it?',sub:'Last step! Choose the year.',answer:String(today.getUTCFullYear()),options:[String(today.getUTCFullYear()-1),String(today.getUTCFullYear()),String(today.getUTCFullYear()+1)],tip:'The year changes after December 31.'}
@@ -117,6 +137,15 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     return shuffle(m.options);
   }
 
+  function setVisualFocus(){
+    el('cardYesterday').classList.remove('active');
+    el('cardToday').classList.remove('active');
+    el('cardTomorrow').classList.remove('active');
+    if(index===1) el('cardYesterday').classList.add('active');
+    else if(index===2) el('cardTomorrow').classList.add('active');
+    else el('cardToday').classList.add('active');
+  }
+
   function render(){
     locked=false;
     drawProgress();
@@ -132,6 +161,7 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     missionOptions(m).forEach(opt=>{
       const b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=opt; b.addEventListener('click',()=>choose(b,opt,m)); optionsEl.appendChild(b);
     });
+    setVisualFocus();
     updateTimeline();
   }
 
@@ -144,7 +174,7 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
       tone(660); setTimeout(()=>{index++;render();},420);
     }else{
       btn.classList.add('wrong'); feedback.className='feedback try';
-      feedback.textContent=index===0?'💡 Try again. Say the days in order!':index===1?'💡 One day BEFORE today. Try again!':index===2?'💡 One day AFTER today. Try again!':'💡 Good try! Check your classroom calendar and choose again.';
+      feedback.textContent=index===0?'💡 TODAY = the middle card. Try again!':index===1?'💡 Look LEFT ⬅️ Yesterday is before today.':index===2?'💡 Look RIGHT ➡️ Tomorrow is after today.':'💡 Good try! Check your classroom calendar and choose again.';
       tone(220); setTimeout(()=>btn.classList.remove('wrong'),500);
     }
   }
