@@ -1,0 +1,313 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Verb + ING | Teacher Majo</title>
+<style>
+  :root{
+    --bg:#f6fbf8;--ink:#17352a;--muted:#5b6f67;--card:#ffffff;--line:#dce8e2;
+    --green:#2f8f63;--green2:#dff5e9;--yellow:#fff1a8;--pink:#ffe2ec;--blue:#dfefff;
+    --red:#c94b5d;--shadow:0 10px 28px rgba(23,53,42,.10);
+  }
+  *{box-sizing:border-box}
+  body{margin:0;font-family:Inter,ui-rounded,"Trebuchet MS",system-ui,-apple-system,sans-serif;background:
+    radial-gradient(circle at 15% 0%,#e8f7ee 0 18%,transparent 35%),
+    radial-gradient(circle at 95% 10%,#fff5c9 0 15%,transparent 30%),var(--bg);color:var(--ink)}
+  button{font:inherit}
+  .wrap{width:min(1120px,94%);margin:auto;padding:22px 0 46px}
+  .hero{display:grid;grid-template-columns:1.2fr .8fr;gap:18px;align-items:center;margin-bottom:18px}
+  .heroBox,.panel{background:rgba(255,255,255,.94);border:1px solid var(--line);border-radius:26px;box-shadow:var(--shadow)}
+  .heroBox{padding:24px}
+  h1{font-size:clamp(2rem,5vw,4.4rem);line-height:.98;margin:0 0 10px}
+  .ing{color:var(--green)}
+  .subtitle{font-size:clamp(1rem,2vw,1.3rem);margin:0;color:var(--muted);font-weight:700}
+  .question{margin-top:15px;background:var(--yellow);border:2px dashed #e1bd31;border-radius:18px;padding:13px 16px;font-size:clamp(1.1rem,2.2vw,1.55rem);font-weight:900}
+  .dino{font-size:clamp(5rem,13vw,9rem);text-align:center;filter:drop-shadow(0 8px 8px rgba(0,0,0,.10));user-select:none}
+  .tabs{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
+  .tab{border:2px solid var(--line);background:#fff;color:var(--ink);padding:13px 18px;border-radius:16px;font-weight:900;cursor:pointer;min-height:48px}
+  .tab.active{background:var(--green);border-color:var(--green);color:#fff}
+  .panel{padding:20px}
+  .hidden{display:none!important}
+  .sectionTitle{font-size:clamp(1.45rem,3vw,2rem);margin:0 0 6px}
+  .hint{margin:0 0 16px;color:var(--muted);font-weight:650}
+  .vocabGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}
+  .vcard{border:2px solid var(--line);background:#fff;border-radius:20px;padding:14px;text-align:center;min-height:155px;display:grid;place-items:center;cursor:pointer;transition:.18s transform,.18s border-color}
+  .vcard:active{transform:scale(.98)}
+  @media(hover:hover){.vcard:hover{transform:translateY(-3px);border-color:#8fcbae}}
+  .emo{font-size:3.4rem;line-height:1}
+  .word{font-size:1.28rem;font-weight:1000;letter-spacing:.02em}
+  .base{font-size:.85rem;color:var(--muted);font-weight:750}
+  .base b{color:var(--green)}
+  .gameTop{display:flex;justify-content:space-between;gap:10px;align-items:center;flex-wrap:wrap}
+  .score{display:flex;gap:8px;flex-wrap:wrap}
+  .pill{background:var(--green2);padding:8px 12px;border-radius:999px;font-weight:900}
+  .visualCue{display:grid;place-items:center;margin:12px 0 6px}
+  .bigEmoji{font-size:clamp(5rem,14vw,8rem);line-height:1.05}
+  .clue{font-weight:900;font-size:1.1rem;color:var(--muted)}
+  .answerZone{min-height:78px;border:3px dashed #a9c5b7;background:#fbfefc;border-radius:20px;padding:10px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;margin:14px 0}
+  .bank{display:flex;gap:9px;justify-content:center;flex-wrap:wrap;min-height:66px;padding:8px}
+  .tile{min-width:50px;min-height:54px;border:2px solid #bed5c9;background:white;border-radius:14px;font-size:1.55rem;font-weight:1000;box-shadow:0 5px 0 #cddfd6;cursor:pointer;text-transform:uppercase}
+  .tile.used{opacity:.25;box-shadow:none}
+  .tile.answer{background:var(--blue);border-color:#8db9e8}
+  .controls{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-top:14px}
+  .btn{border:0;border-radius:15px;padding:13px 18px;min-height:48px;font-weight:1000;cursor:pointer}
+  .primary{background:var(--green);color:white}
+  .secondary{background:#edf4f0;color:var(--ink)}
+  .danger{background:var(--pink);color:#8d2d45}
+  .feedback{min-height:32px;text-align:center;font-weight:1000;font-size:1.15rem;margin-top:10px}
+  .correct{color:var(--green)}
+  .wrong{color:var(--red)}
+  .teacherTip{margin-top:16px;background:#f4f8f6;border-left:5px solid var(--green);padding:12px 14px;border-radius:12px;color:var(--muted);font-weight:700}
+  .footer{text-align:center;color:var(--muted);font-size:.9rem;margin-top:18px}
+  @media(max-width:760px){.hero{grid-template-columns:1fr}.dino{display:none}.vocabGrid{grid-template-columns:repeat(2,1fr)}}
+  @media(max-width:380px){.vocabGrid{grid-template-columns:1fr}.tile{min-width:44px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="hero">
+    <div class="heroBox">
+      <h1>VERB + <span class="ing">ING</span> 🌟</h1>
+      <p class="subtitle">Look • Move • Say • Build the word!</p>
+      <div class="question">💬 Question of the day: <strong>What are you doing?</strong></div>
+    </div>
+    <div class="dino" aria-hidden="true">🦖</div>
+  </section>
+
+  <nav class="tabs" aria-label="Activity sections">
+    <button class="tab active" id="learnTab" type="button">👀 Visual Vocabulary</button>
+    <button class="tab" id="gameTab" type="button">🎮 Unscramble Game</button>
+  </nav>
+
+  <section class="panel" id="learnPanel">
+    <h2 class="sectionTitle">Today’s visual vocabulary</h2>
+    <p class="hint">Tap a card to hear the word. Then do the action together.</p>
+    <div class="vocabGrid" id="vocabGrid"></div>
+    <div class="teacherTip">✨ Teacher prompt: “What are you doing?” → “I am <strong>reading / writing / dancing…</strong>”</div>
+  </section>
+
+  <section class="panel hidden" id="gamePanel">
+    <div class="gameTop">
+      <div>
+        <h2 class="sectionTitle">Unscramble the -ING word!</h2>
+        <p class="hint">Tap the letters in the correct order.</p>
+      </div>
+      <div class="score">
+        <span class="pill">⭐ Score: <span id="score">0</span></span>
+        <span class="pill">🔥 Streak: <span id="streak">0</span></span>
+      </div>
+    </div>
+
+    <div class="visualCue">
+      <div class="bigEmoji" id="cueEmoji" aria-label="Visual clue"></div>
+      <div class="clue" id="cueText">What are you doing?</div>
+    </div>
+
+    <div class="answerZone" id="answerZone" aria-label="Your answer"></div>
+    <div class="bank" id="letterBank" aria-label="Scrambled letters"></div>
+
+    <div class="controls">
+      <button class="btn secondary" id="undoBtn" type="button">↩ Undo</button>
+      <button class="btn danger" id="clearBtn" type="button">🧹 Clear</button>
+      <button class="btn primary" id="checkBtn" type="button">✅ Check</button>
+      <button class="btn secondary" id="sayBtn" type="button">🔊 Hear clue</button>
+      <button class="btn primary hidden" id="nextBtn" type="button">➡ Next word</button>
+    </div>
+    <div class="feedback" id="feedback" aria-live="polite"></div>
+  </section>
+
+  <div class="footer">Made for 3rd Grade English • Teacher Majo 🦖</div>
+</main>
+
+<script>
+(() => {
+  const words = [
+    {base:'read', word:'reading', emoji:'📖'},
+    {base:'write', word:'writing', emoji:'✏️'},
+    {base:'draw', word:'drawing', emoji:'🎨'},
+    {base:'play', word:'playing', emoji:'⚽'},
+    {base:'sing', word:'singing', emoji:'🎤'},
+    {base:'dance', word:'dancing', emoji:'💃'},
+    {base:'listen', word:'listening', emoji:'👂'},
+    {base:'walk', word:'walking', emoji:'🚶'},
+    {base:'jump', word:'jumping', emoji:'🤸'},
+    {base:'run', word:'running', emoji:'🏃'}
+  ];
+
+  const learnTab = document.getElementById('learnTab');
+  const gameTab = document.getElementById('gameTab');
+  const learnPanel = document.getElementById('learnPanel');
+  const gamePanel = document.getElementById('gamePanel');
+  const vocabGrid = document.getElementById('vocabGrid');
+
+  function speak(text){
+    if(!('speechSynthesis' in window)) return;
+    window.speechSynthesis.cancel();
+    const u = new SpeechSynthesisUtterance(text);
+    u.lang = 'en-US';
+    u.rate = .82;
+    window.speechSynthesis.speak(u);
+  }
+
+  words.forEach(item => {
+    const card = document.createElement('button');
+    card.type = 'button';
+    card.className = 'vcard';
+    card.innerHTML = '<div class="emo">'+item.emoji+'</div><div class="word">'+item.word.toUpperCase()+'</div><div class="base">'+item.base+' → <b>'+item.word+'</b></div>';
+    card.setAttribute('aria-label', item.word + ', tap to hear');
+    card.addEventListener('click', () => speak(item.word));
+    vocabGrid.appendChild(card);
+  });
+
+  function show(which){
+    const learn = which === 'learn';
+    learnPanel.classList.toggle('hidden', !learn);
+    gamePanel.classList.toggle('hidden', learn);
+    learnTab.classList.toggle('active', learn);
+    gameTab.classList.toggle('active', !learn);
+    if(!learn && !state.current) nextWord();
+  }
+  learnTab.addEventListener('click',()=>show('learn'));
+  gameTab.addEventListener('click',()=>show('game'));
+
+  const state = {current:null, letters:[], answer:[], score:0, streak:0, solved:false, lastIndex:-1};
+  const cueEmoji = document.getElementById('cueEmoji');
+  const cueText = document.getElementById('cueText');
+  const answerZone = document.getElementById('answerZone');
+  const letterBank = document.getElementById('letterBank');
+  const feedback = document.getElementById('feedback');
+  const scoreEl = document.getElementById('score');
+  const streakEl = document.getElementById('streak');
+  const nextBtn = document.getElementById('nextBtn');
+
+  function shuffledLetters(word){
+    let arr = word.split('');
+    let tries = 0;
+    do{
+      for(let i=arr.length-1;i>0;i--){
+        const j = Math.floor(Math.random()*(i+1));
+        [arr[i],arr[j]]=[arr[j],arr[i]];
+      }
+      tries++;
+    }while(arr.join('')===word && tries<12);
+    return arr.map((letter,index)=>({letter,id:index,used:false}));
+  }
+
+  function render(){
+    cueEmoji.textContent = state.current.emoji;
+    cueText.textContent = 'What are you doing?';
+    scoreEl.textContent = state.score;
+    streakEl.textContent = state.streak;
+
+    answerZone.innerHTML='';
+    if(!state.answer.length){
+      const p=document.createElement('span');
+      p.textContent='Tap letters here 👇';
+      p.style.color='#81948c'; p.style.fontWeight='900';
+      answerZone.appendChild(p);
+    } else {
+      state.answer.forEach((entry,answerIndex)=>{
+        const b=document.createElement('button');
+        b.type='button'; b.className='tile answer'; b.textContent=entry.letter;
+        b.title='Tap to remove';
+        b.addEventListener('click',()=>removeFromAnswer(answerIndex));
+        answerZone.appendChild(b);
+      });
+    }
+
+    letterBank.innerHTML='';
+    state.letters.forEach((entry,index)=>{
+      const b=document.createElement('button');
+      b.type='button'; b.className='tile'+(entry.used?' used':'');
+      b.textContent=entry.letter;
+      b.disabled=entry.used || state.solved;
+      b.addEventListener('click',()=>addLetter(index));
+      letterBank.appendChild(b);
+    });
+  }
+
+  function addLetter(index){
+    const entry=state.letters[index];
+    if(!entry || entry.used || state.solved) return;
+    entry.used=true;
+    state.answer.push({letter:entry.letter,index});
+    feedback.textContent='';
+    render();
+  }
+
+  function removeFromAnswer(answerIndex){
+    if(state.solved) return;
+    const entry=state.answer[answerIndex];
+    if(!entry) return;
+    state.letters[entry.index].used=false;
+    state.answer.splice(answerIndex,1);
+    feedback.textContent='';
+    render();
+  }
+
+  function undo(){
+    if(state.solved || !state.answer.length) return;
+    removeFromAnswer(state.answer.length-1);
+  }
+
+  function clearAnswer(){
+    if(state.solved) return;
+    state.letters.forEach(x=>x.used=false);
+    state.answer=[];
+    feedback.textContent='';
+    render();
+  }
+
+  function check(){
+    if(state.solved) return;
+    const attempt=state.answer.map(x=>x.letter).join('');
+    if(attempt.length < state.current.word.length){
+      feedback.className='feedback wrong';
+      feedback.textContent='Keep going! You still need more letters. 💪';
+      return;
+    }
+    if(attempt===state.current.word){
+      state.solved=true;
+      state.score += 10;
+      state.streak += 1;
+      feedback.className='feedback correct';
+      feedback.textContent='Amazing! 🎉 '+state.current.word.toUpperCase()+'!';
+      speak('Great job! ' + state.current.word);
+      nextBtn.classList.remove('hidden');
+      render();
+    } else {
+      state.streak=0;
+      feedback.className='feedback wrong';
+      feedback.textContent='Almost! Look carefully and try again. 👀';
+      speak('Try again');
+      streakEl.textContent=state.streak;
+    }
+  }
+
+  function nextWord(){
+    let index;
+    do{ index=Math.floor(Math.random()*words.length); }
+    while(words.length>1 && index===state.lastIndex);
+    state.lastIndex=index;
+    state.current=words[index];
+    state.letters=shuffledLetters(state.current.word);
+    state.answer=[];
+    state.solved=false;
+    feedback.className='feedback';
+    feedback.textContent='';
+    nextBtn.classList.add('hidden');
+    render();
+  }
+
+  document.getElementById('undoBtn').addEventListener('click',undo);
+  document.getElementById('clearBtn').addEventListener('click',clearAnswer);
+  document.getElementById('checkBtn').addEventListener('click',check);
+  document.getElementById('sayBtn').addEventListener('click',()=>{
+    if(state.current) speak('What are you doing? ' + state.current.word);
+  });
+  nextBtn.addEventListener('click',nextWord);
+})();
+</script>
+</body>
+</html>
