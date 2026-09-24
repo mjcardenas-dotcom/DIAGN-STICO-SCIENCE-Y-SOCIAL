@@ -15,7 +15,7 @@ body{min-height:100vh;display:flex;justify-content:center;padding:14px}
 header{display:flex;align-items:center;justify-content:space-between;gap:12px;background:#173c2d;color:white;border-radius:22px;padding:12px 16px;box-shadow:var(--shadow)}
 .brand{display:flex;align-items:center;gap:12px}.rex{font-size:42px;line-height:1}.brand b{display:block;font-size:clamp(18px,3vw,28px);letter-spacing:.4px}.brand small{display:block;opacity:.86;margin-top:2px;font-weight:700}
 .icon-btn{border:0;background:#ffffff18;color:white;border-radius:14px;padding:10px 12px;cursor:pointer;font-weight:900}
-.progress{display:grid;grid-template-columns:repeat(6,1fr);gap:7px}.dot{height:10px;border-radius:999px;background:#ffffffaa;border:1px solid #214f3830}.dot.done{background:var(--green)}.dot.now{background:var(--yellow);outline:3px solid #ffd76055}
+.progress{display:grid;grid-template-columns:repeat(7,1fr);gap:7px}.dot{height:10px;border-radius:999px;background:#ffffffaa;border:1px solid #214f3830}.dot.done{background:var(--green)}.dot.now{background:var(--yellow);outline:3px solid #ffd76055}
 main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:12px}
 .panel{background:rgba(255,255,255,.93);border-radius:26px;padding:clamp(16px,3vw,28px);box-shadow:var(--shadow);border:2px solid #fff}
 .mission-tag{display:inline-flex;align-items:center;gap:7px;background:#e9f7e9;color:#23633a;padding:7px 11px;border-radius:999px;font-weight:1000;font-size:13px;letter-spacing:.5px;text-transform:uppercase}
@@ -27,6 +27,11 @@ main{flex:1;display:grid;grid-template-columns:minmax(0,1fr) 270px;gap:12px}
 .arrow-step{font-size:28px;font-weight:1000;color:#2f7d4a;text-align:center}
 .helper-row{display:flex;gap:10px;flex-wrap:wrap;margin:2px 0 18px}
 .helper-pill{background:#f0f7ff;color:#295c8d;padding:9px 12px;border-radius:999px;font-weight:1000}
+.weather-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:12px}
+.weather-choice{min-height:110px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:7px}
+.weather-choice .weather-icon{font-size:42px;line-height:1}
+.weather-choice .weather-word{font-size:18px;font-weight:1000}
+.weather-note{margin:4px 0 16px;padding:12px 14px;border-radius:16px;background:#eaf6ff;color:#295c8d;font-weight:900;text-align:center}
 h1{font-size:clamp(30px,6vw,58px);line-height:1.04;margin:14px 0 8px}.sub{font-size:clamp(16px,2vw,21px);margin:0 0 18px;color:#466355;font-weight:700}
 .options{display:grid;grid-template-columns:repeat(auto-fit,minmax(135px,1fr));gap:10px}.choice{min-height:64px;border:0;border-radius:18px;background:#f2f8ef;color:var(--ink);font-size:clamp(17px,2.4vw,23px);font-weight:1000;cursor:pointer;box-shadow:0 5px 0 #cfe3ca;transition:transform .08s,box-shadow .08s,background .08s}.choice:hover{transform:translateY(-2px)}.choice:active{transform:translateY(3px);box-shadow:0 1px 0 #cfe3ca}.choice.correct{background:#c9f2d2;box-shadow:0 5px 0 #78c88d}.choice.wrong{background:#ffe0e0;box-shadow:0 5px 0 #ef9b9b;animation:shake .22s linear 2}.choice[disabled]{cursor:default}
 .number-grid{grid-template-columns:repeat(7,1fr)}.number-grid .choice{min-width:0;min-height:50px;font-size:18px;border-radius:14px}
@@ -80,7 +85,7 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     <button class="restart" id="restartBtn" type="button">PLAY AGAIN ↻</button>
   </section>
   <aside class="side">
-    <div class="side-card"><h2>⭐ Rex Stars</h2><div class="stars" id="stars">☆ ☆ ☆ ☆ ☆ ☆</div><div id="scoreText">0 of 6 missions</div></div>
+    <div class="side-card"><h2>⭐ Rex Stars</h2><div class="stars" id="stars">☆ ☆ ☆ ☆ ☆ ☆</div><div id="scoreText">0 of 7 missions</div></div>
     <div class="side-card tip"><h2>💡 Thinking Tip</h2><div id="tipText">Say the days of the week in order.</div></div>
     <div class="side-card"><h2>⏳ Time Travel</h2><div class="timeline" id="timeline"><div class="time-chip"><strong>Yesterday</strong>???</div><div class="time-chip"><strong>Today</strong>???</div><div class="time-chip"><strong>Tomorrow</strong>???</div></div></div>
   </aside>
@@ -102,6 +107,13 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
   const ordinal = n => { const v=n%100; return n+((v>=11&&v<=13)?'th':({1:'st',2:'nd',3:'rd'}[n%10]||'th')); };
 
   const missions=[
+    {type:'weather',q:'How is the weather today?',sub:'Look outside. Think and choose the weather you can see.',options:[
+      {label:'Sunny',icon:'☀️'},
+      {label:'Partly cloudy',icon:'🌤️'},
+      {label:'Cloudy',icon:'☁️'},
+      {label:'Rainy',icon:'🌧️'},
+      {label:'Windy',icon:'💨'}
+    ],tip:'Look out the window before you choose.'},
     {q:'What day is TODAY?',sub:'Look at the middle card. TODAY means now.',answer:dayName(today),options:DAYS,tip:'TODAY is happening now.'},
     {q:'What day was YESTERDAY?',sub:'Look LEFT. YESTERDAY is before today.',answer:dayName(yesterday),options:DAYS,tip:'Yesterday is one day BEFORE today.'},
     {q:'What day is TOMORROW?',sub:'Look RIGHT. TOMORROW is after today.',answer:dayName(tomorrow),options:DAYS,tip:'Tomorrow is one day AFTER today.'},
@@ -122,7 +134,7 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
 
   function shuffle(arr){ return [...arr].sort(()=>Math.random()-.5); }
   function missionOptions(m){
-    if(index===3){
+    if(index===4){
       const correct=MONTHS.indexOf(m.answer);
       const picks=new Set([correct]);
       while(picks.size<6) picks.add(Math.floor(Math.random()*12));
@@ -141,8 +153,8 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     el('cardYesterday').classList.remove('active');
     el('cardToday').classList.remove('active');
     el('cardTomorrow').classList.remove('active');
-    if(index===1) el('cardYesterday').classList.add('active');
-    else if(index===2) el('cardTomorrow').classList.add('active');
+    if(index===2) el('cardYesterday').classList.add('active');
+    else if(index===3) el('cardTomorrow').classList.add('active');
     else el('cardToday').classList.add('active');
   }
 
@@ -156,13 +168,37 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
     el('subtitle').textContent=m.sub;
     el('tipText').textContent=m.tip;
     feedback.className='feedback'; feedback.textContent='🦖 Rex says: Think first, then tap!';
-    optionsEl.className='options'+(index===4?' number-grid':'');
     optionsEl.innerHTML='';
-    missionOptions(m).forEach(opt=>{
-      const b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=opt; b.addEventListener('click',()=>choose(b,opt,m)); optionsEl.appendChild(b);
-    });
+    if(m.type==='weather'){
+      optionsEl.className='weather-grid';
+      m.options.forEach(opt=>{
+        const b=document.createElement('button');
+        b.type='button';
+        b.className='choice weather-choice';
+        b.innerHTML='<span class="weather-icon">'+opt.icon+'</span><span class="weather-word">'+opt.label+'</span>';
+        b.addEventListener('click',()=>chooseWeather(b,opt));
+        optionsEl.appendChild(b);
+      });
+    }else{
+      optionsEl.className='options'+(index===5?' number-grid':'');
+      missionOptions(m).forEach(opt=>{
+        const b=document.createElement('button'); b.type='button'; b.className='choice'; b.textContent=opt; b.addEventListener('click',()=>choose(b,opt,m)); optionsEl.appendChild(b);
+      });
+    }
     setVisualFocus();
     updateTimeline();
+  }
+
+  function chooseWeather(btn,opt){
+    if(locked) return;
+    locked=true;
+    btn.classList.add('correct');
+    [...optionsEl.children].forEach(b=>b.disabled=true);
+    feedback.className='feedback good';
+    feedback.textContent='🌤️ Great observation! Today is '+opt.label.toLowerCase()+'.';
+    try{localStorage.setItem('rexWeatherToday',opt.label)}catch(e){}
+    tone(660);
+    setTimeout(()=>{index++;render();},520);
   }
 
   function choose(btn,opt,m){
@@ -174,26 +210,27 @@ footer{text-align:center;font-weight:800;color:#557166;font-size:13px;padding:2p
       tone(660); setTimeout(()=>{index++;render();},420);
     }else{
       btn.classList.add('wrong'); feedback.className='feedback try';
-      feedback.textContent=index===0?'💡 TODAY = the middle card. Try again!':index===1?'💡 Look LEFT ⬅️ Yesterday is before today.':index===2?'💡 Look RIGHT ➡️ Tomorrow is after today.':'💡 Good try! Check your classroom calendar and choose again.';
+      feedback.textContent=index===1?'💡 TODAY = the middle card. Try again!':index===2?'💡 Look LEFT ⬅️ Yesterday is before today.':index===3?'💡 Look RIGHT ➡️ Tomorrow is after today.':'💡 Good try! Check your classroom calendar and choose again.';
       tone(220); setTimeout(()=>btn.classList.remove('wrong'),500);
     }
   }
 
   function updateTimeline(){
-    const knownY=index>=2, knownT=index>=1, knownTom=index>=3;
+    const knownY=index>=3, knownT=index>=2, knownTom=index>=4;
     el('timeline').innerHTML=`<div class="time-chip"><strong>Yesterday</strong>${knownY?dayName(yesterday):'???'}</div><div class="time-chip"><strong>Today</strong>${knownT?dayName(today):'???'}</div><div class="time-chip"><strong>Tomorrow</strong>${knownTom?dayName(tomorrow):'???'}</div>`;
   }
 
   function finish(){
     drawProgress(); el('gamePanel').style.display='none'; el('finalPanel').classList.add('show');
     el('fullDate').textContent=`Today is ${dayName(today)}, ${monthName(today)} ${ordinal(today.getUTCDate())}, ${today.getUTCFullYear()}.`;
-    el('yesterdayTomorrow').textContent=`Yesterday was ${dayName(yesterday)}. Tomorrow is ${dayName(tomorrow)}.`;
+    let weather=''; try{weather=localStorage.getItem('rexWeatherToday')||''}catch(e){}
+    el('yesterdayTomorrow').textContent=`Yesterday was ${dayName(yesterday)}. Tomorrow is ${dayName(tomorrow)}.`+(weather?` The weather is ${weather.toLowerCase()}.`:'');
     el('timeline').innerHTML=`<div class="time-chip"><strong>Yesterday</strong>${dayName(yesterday)}</div><div class="time-chip"><strong>Today</strong>${dayName(today)}</div><div class="time-chip"><strong>Tomorrow</strong>${dayName(tomorrow)}</div>`;
     el('tipText').textContent='Now say the full date out loud!';
     tone(880); confetti(); saveStreak();
   }
 
-  function reset(){ index=0; el('gamePanel').style.display='block'; el('finalPanel').classList.remove('show'); render(); }
+  function reset(){ try{localStorage.removeItem('rexWeatherToday')}catch(e){} index=0; el('gamePanel').style.display='block'; el('finalPanel').classList.remove('show'); render(); }
   function tone(freq){ if(!sound) return; try{const A=window.AudioContext||window.webkitAudioContext,c=new A(),o=c.createOscillator(),g=c.createGain();o.connect(g);g.connect(c.destination);o.frequency.value=freq;g.gain.setValueAtTime(.05,c.currentTime);g.gain.exponentialRampToValueAtTime(.001,c.currentTime+.12);o.start();o.stop(c.currentTime+.12)}catch(e){} }
   function confetti(){ const c=el('confetti'), colors=['#ffd760','#49a864','#5aa9e6','#ff9f43','#e45b5b']; c.innerHTML=''; for(let i=0;i<38;i++){const p=document.createElement('i');p.style.left=Math.random()*100+'vw';p.style.background=colors[i%colors.length];p.style.animationDelay=Math.random()*.3+'s';p.style.transform=`rotate(${Math.random()*180}deg)`;c.appendChild(p)} setTimeout(()=>c.innerHTML='',1800); }
   function saveStreak(){ try{const key=today.toISOString().slice(0,10);localStorage.setItem('rexDailyDateLast',key)}catch(e){} }
