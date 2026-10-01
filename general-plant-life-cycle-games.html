@@ -33,13 +33,13 @@ function check(){if(solved){feedback('Great job! Play again or choose the next g
 
 function renderPillar(){
  document.querySelectorAll('nav button').forEach((b,i)=>{b.classList.toggle('active',i===3);b.setAttribute('aria-current',i===3?'page':'false')});
- let question=pillarPhase===0?'Which pillar helps us care for plants?':'Why is environmental responsibility important?';
- let options=pillarPhase===0?['Family','Environmental Responsibility','Public Speaking']:['Because we pull off the leaves.','Because we care for plants and nature.','Because we waste water.'];
- document.getElementById('main').innerHTML=`<h2>${question}</h2><div class="instruction"><button class="secondary" id="pillarListen">🔊 Listen</button><p>Look, think and choose.</p></div><div class="pillar-scene" role="img" aria-label="Children watering and planting in a garden"></div><div class="pillar-options">${options.map((t,i)=>`<button class="secondary" data-answer="${i}">${t}</button>`).join('')}</div><div class="feedback" id="feedback" role="status"></div><div class="controls"><button class="secondary" id="pillarReset">Play again ↻</button><button id="pillarNext" hidden>${pillarPhase===0?'Why?':'Back to the cycle'}</button></div>`;
+ let question=pillarPhase===0?'Which pillar?':'Why?';
+ let options=pillarPhase===0?['Family','Environmental Responsibility','Public Speaking']:['We hurt plants.','We help plants.','We waste water.'];
+ document.getElementById('main').innerHTML=`<h2>${question}</h2><div class="instruction"><button class="secondary" id="pillarListen">🔊 Listen</button><p>Look and choose.</p></div><div class="pillar-scene" role="img" aria-label="Children watering and planting in a garden"></div><div class="pillar-options">${options.map((t,i)=>`<button class="secondary" data-answer="${i}">${t}</button>`).join('')}</div><div class="feedback" id="feedback" role="status"></div><div class="controls"><button class="secondary" id="pillarReset">Play again ↻</button><button id="pillarNext" hidden>${pillarPhase===0?'Why?':'Back to the cycle'}</button></div>`;
  document.getElementById('pillarListen').onclick=()=>say(question+' '+(pillarPhase===0?'Family. Environmental responsibility. Public speaking.':options.join(' ')));
  document.getElementById('pillarReset').onclick=()=>start(3);
  document.getElementById('pillarNext').onclick=()=>{if(pillarPhase===0){pillarPhase=1;pillarDone=false;renderPillar()}else start(0)};
- document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{if(pillarDone)return;let i=Number(b.dataset.answer);if(i===1){pillarDone=true;b.style.background='#c9f4d7';b.style.borderColor='#16804c';b.classList.add('celebrate');feedback(pillarPhase===0?'Yes! Environmental responsibility!':'Yes! We care for plants and nature. We use water wisely!');document.getElementById('pillarNext').hidden=false}else{b.style.borderColor='#e88919';feedback('Try again! How can we care for plants?')}});
+ document.querySelectorAll('[data-answer]').forEach(b=>b.onclick=()=>{if(pillarDone)return;let i=Number(b.dataset.answer);if(i===1){pillarDone=true;b.style.background='#c9f4d7';b.style.borderColor='#16804c';b.classList.add('celebrate');feedback(pillarPhase===0?'Yes! Environmental responsibility!':'Yes! We help plants!');document.getElementById('pillarNext').hidden=false}else{b.style.borderColor='#e88919';feedback('Try again! Help plants.')}});
 }
 start(0);
 </script></html>
