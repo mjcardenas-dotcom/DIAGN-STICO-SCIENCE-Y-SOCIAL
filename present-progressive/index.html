@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Rex Present Progressive Lab</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<div id="confetti"></div>
+<div class="app">
+<header class="topbar">
+  <div class="brand"><span>🦖</span><div><b>Rex English Lab</b><small>Present Progressive Playground</small></div></div>
+  <div class="teams">
+    <div>⭐ Team A <button onclick="team('A',-1)">−</button><strong id="aScore">0</strong><button onclick="team('A',1)">+</button></div>
+    <div>🌟 Team B <button onclick="team('B',-1)">−</button><strong id="bScore">0</strong><button onclick="team('B',1)">+</button></div>
+    <button onclick="full()">⛶ Full screen</button>
+  </div>
+</header>
+
+<main id="home" class="screen active">
+<section class="hero">
+  <div>
+    <div class="eyebrow">TODAY'S MISSION</div>
+    <h1>What are they doing?</h1>
+    <p>Learn the <b>Present Progressive</b> with Rex through six quick classroom games.</p>
+    <div class="formula"><span>HE / SHE</span><b>+</b><span>IS</span><b>+</b><span>VERB + ING</span></div>
+    <div class="formula second"><span>THEY</span><b>+</b><span>ARE</span><b>+</b><span>VERB + ING</span></div>
+  </div><div class="bigrex">🦖</div>
+</section>
+<div class="games">
+  <button class="game g1" onclick="openGame('quiz')"><span>🖼️</span><b>Picture Quiz</b><small>Choose the correct sentence.</small><em>PLAY →</em></button>
+  <button class="game g2" onclick="openGame('builder')"><span>🧩</span><b>Sentence Builder</b><small>Put the words in order.</small><em>BUILD →</em></button>
+  <button class="game g3" onclick="openGame('memory')"><span>🧠</span><b>Memory Match</b><small>Match actions and sentences.</small><em>MATCH →</em></button>
+  <button class="game g4" onclick="openGame('tf')"><span>✅</span><b>True or False?</b><small>Does the sentence match?</small><em>CHECK →</em></button>
+  <button class="game g5" onclick="openGame('speed')"><span>⚡</span><b>Speed Round</b><small>45 seconds of verb + ing!</small><em>GO! →</em></button>
+  <button class="game g6" onclick="openGame('act')"><span>🎭</span><b>Act It Out!</b><small>Mime, think and say it.</small><em>SPIN →</em></button>
+</div>
+<section class="pyp"><b>🌱 PYP routine</b><span>I SEE the action</span><span>I THINK of the verb</span><span>I SAY the sentence</span></section>
+</main>
+
+<section id="quiz" class="screen panel"><div class="head"><h2>🖼️ Picture Quiz</h2><button onclick="homeGo()">← Games</button></div><div class="bar"><i id="qbar"></i></div><div class="scene" id="qscene"></div><h3>What is happening?</h3><div class="options" id="qopts"></div><div class="feedback" id="qfeed"></div><button class="next" id="qnext" onclick="nextQuiz()">Next →</button><p class="tip">💡 Ask first: <b>“What do you see?”</b> Then choose the full sentence.</p></section>
+
+<section id="builder" class="screen panel"><div class="head"><h2>🧩 Sentence Builder</h2><button onclick="homeGo()">← Games</button></div><div class="scene" id="bscene"></div><h3 id="bhint"></h3><div class="tray" id="tray"></div><div class="tokens" id="tokens"></div><div class="row"><button onclick="clearBuild()">↻ Clear</button><button class="green" onclick="checkBuild()">✓ Check</button><button onclick="listenBuild()">🔊 Listen</button><button onclick="newBuild()">New →</button></div><div class="feedback" id="bfeed"></div></section>
+
+<section id="memory" class="screen panel"><div class="head"><h2>🧠 Memory Match</h2><button onclick="homeGo()">← Games</button></div><h3>Find the 6 matching pairs!</h3><div class="memory" id="memoryGrid"></div><div class="feedback" id="mfeed"></div><div class="row"><button onclick="makeMemory()">↻ Shuffle again</button></div></section>
+
+<section id="tf" class="screen panel"><div class="head"><h2>✅ True or False?</h2><button onclick="homeGo()">← Games</button></div><div class="bar"><i id="tfbar"></i></div><div class="two"><div class="scene" id="tfscene"></div><div><h3 id="tfsentence"></h3><div class="row"><button class="green big" onclick="answerTF(true)">✅ TRUE</button><button class="pink big" onclick="answerTF(false)">❌ FALSE</button></div><div class="feedback" id="tffeed"></div></div></div><p class="tip">👀 PYP prompt: <b>“What makes you say that?”</b></p></section>
+
+<section id="speed" class="screen panel"><div class="head"><h2>⚡ Speed Round</h2><button onclick="homeGo()">← Games</button></div><div class="row"><span class="counter">⏱️ <b id="stime">45</b>s</span><span class="counter">⭐ <b id="spoints">0</b></span><button class="yellow" id="sstart" onclick="startSpeed()">START</button></div><div class="scene" id="sscene">🦖</div><h3 id="sprompt">Press START!</h3><div class="speedopts" id="sopts"></div><div class="feedback" id="sfeed"></div></section>
+
+<section id="act" class="screen panel"><div class="head"><h2>🎭 Act It Out!</h2><button onclick="homeGo()">← Games</button></div><div class="scene" id="actscene">🦖</div><h3 id="actprompt">Spin for a classroom action!</h3><div class="answer" id="actanswer">Mime first. Say the sentence after!</div><div class="row"><button class="yellow big" onclick="spinAct()">🎲 SPIN</button><button class="purple big" onclick="revealAct()">👀 Reveal sentence</button></div><p class="tip">🏆 1 point for a clear mime + 1 point for the correct sentence.</p></section>
+</div>
+<script src="app.js"></script>
+</body>
+</html>
