@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Animal Needs Adventure</title>
+<style>
+  :root{--ink:#243238;--muted:#64748b;--card:#ffffff;--soft:#f7faf8;--green:#2e7d5b;--green2:#dff4e7;--gold:#f7c948;--bad:#d94b4b;--good:#218c5a;--blue:#dff2ff;--line:#dbe4e0}
+  *{box-sizing:border-box}
+  body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;background:linear-gradient(180deg,#eef8f1,#f8fbff);color:var(--ink);min-height:100vh}
+  .wrap{width:min(980px,94vw);margin:0 auto;padding:28px 0 46px}
+  .hero{text-align:center;margin-bottom:18px}
+  .hero h1{font-size:clamp(2rem,5vw,3.6rem);margin:.15rem 0 .3rem;line-height:1}
+  .hero p{margin:0;color:var(--muted);font-size:1.05rem}
+  .animals{font-size:2rem;letter-spacing:.15rem;margin-bottom:.25rem}
+  .panel{background:var(--card);border:2px solid var(--line);border-radius:28px;padding:clamp(18px,4vw,34px);box-shadow:0 16px 40px rgba(53,86,70,.10)}
+  .topbar{display:flex;gap:12px;justify-content:space-between;align-items:center;flex-wrap:wrap;margin-bottom:18px}
+  .pill{padding:10px 14px;border-radius:999px;background:var(--soft);border:1px solid var(--line);font-weight:800}
+  .progress{height:14px;background:#eef2ef;border-radius:999px;overflow:hidden;flex:1;min-width:160px}
+  .progress>div{height:100%;width:0;background:linear-gradient(90deg,#58a879,#8ccf9d);transition:width .25s ease}
+  .stage{text-align:center}
+  .animal{font-size:clamp(4.5rem,12vw,8rem);line-height:1.1;margin:10px 0}
+  .question{font-size:clamp(1.35rem,3vw,2.1rem);font-weight:900;max-width:760px;margin:0 auto 18px}
+  .hint{color:var(--muted);margin:-8px auto 18px}
+  .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;max-width:760px;margin:0 auto}
+  button.choice{appearance:none;border:2px solid var(--line);background:#fff;border-radius:20px;padding:18px 14px;font-size:1.15rem;font-weight:850;color:var(--ink);cursor:pointer;min-height:76px;transition:.16s transform,.16s border-color,.16s background}
+  button.choice:hover{transform:translateY(-2px);border-color:#9dcdb0}
+  button.choice:focus-visible,.action:focus-visible{outline:4px solid #b9dfc8;outline-offset:3px}
+  button.choice.correct{background:#e6f8ed;border-color:#64b985}
+  button.choice.wrong{background:#ffe9e9;border-color:#e18c8c}
+  button.choice:disabled{cursor:default;opacity:.93}
+  .feedback{min-height:56px;margin:18px auto 4px;font-size:1.2rem;font-weight:900}
+  .feedback.good{color:var(--good)}
+  .feedback.bad{color:var(--bad)}
+  .action{border:none;border-radius:16px;background:var(--green);color:#fff;font-weight:900;font-size:1.05rem;padding:14px 22px;cursor:pointer;min-height:50px}
+  .action.secondary{background:#eef4f1;color:var(--ink);border:1px solid var(--line)}
+  .actions{display:flex;justify-content:center;gap:12px;flex-wrap:wrap;margin-top:14px}
+  .startbox{max-width:720px;margin:0 auto;text-align:center}
+  .needs{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin:22px 0}
+  .need{border:1px solid var(--line);background:var(--soft);border-radius:18px;padding:12px 6px;font-weight:800}
+  .need span{display:block;font-size:2rem}
+  .tiny{font-size:.92rem;color:var(--muted)}
+  .resultStars{font-size:3rem;letter-spacing:.2rem;margin:8px 0}
+  .summary{font-size:1.25rem;font-weight:850;margin:8px 0 18px}
+  .hidden{display:none!important}
+  .burst{animation:pop .35s ease}
+  @keyframes pop{0%{transform:scale(.92)}70%{transform:scale(1.04)}100%{transform:scale(1)}}
+  @media(max-width:640px){.grid{grid-template-columns:1fr}.needs{grid-template-columns:repeat(2,1fr)}.need:last-child{grid-column:1/-1}.wrap{padding-top:16px}.panel{border-radius:22px}.question{font-size:1.45rem}}
+  @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <header class="hero">
+    <div class="animals" aria-hidden="true">🐶 🐰 🐦 🐟 🦁 🐢</div>
+    <h1>Animal Needs Adventure</h1>
+    <p>Science Game · What do animals need to live?</p>
+  </header>
+
+  <section class="panel" id="startScreen">
+    <div class="startbox">
+      <h2>Ready, little scientist? 🔎</h2>
+      <p>Help the animals find what they need to live. Choose the best answer in each round.</p>
+      <div class="needs" aria-label="Basic animal needs">
+        <div class="need"><span>🍎</span>Food</div>
+        <div class="need"><span>💧</span>Water</div>
+        <div class="need"><span>🌬️</span>Air</div>
+        <div class="need"><span>🏠</span>Shelter</div>
+        <div class="need"><span>🌿</span>Space</div>
+      </div>
+      <p class="tiny">There are 10 questions. Try to earn 10 stars!</p>
+      <button class="action" id="startBtn" type="button">Start Game ▶</button>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="gameScreen" aria-live="polite">
+    <div class="topbar">
+      <div class="pill" id="roundPill">Question 1 / 10</div>
+      <div class="progress" aria-label="Game progress"><div id="progressBar"></div></div>
+      <div class="pill" id="scorePill">⭐ 0</div>
+    </div>
+    <div class="stage">
+      <div class="animal" id="animalEmoji" aria-hidden="true">🐶</div>
+      <div class="question" id="questionText"></div>
+      <div class="hint" id="hintText"></div>
+      <div class="grid" id="choices"></div>
+      <div class="feedback" id="feedback"></div>
+      <div class="actions">
+        <button class="action hidden" id="nextBtn" type="button">Next ➜</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="panel hidden" id="endScreen">
+    <div class="startbox">
+      <div class="animal">🏆</div>
+      <h2>Great job, scientist!</h2>
+      <div class="resultStars" id="resultStars">⭐⭐⭐⭐⭐</div>
+      <div class="summary" id="summary"></div>
+      <p id="endMessage"></p>
+      <div class="actions">
+        <button class="action" id="restartBtn" type="button">Play Again ↻</button>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+(() => {
+  const questions = [
+    {animal:'🐶',q:'What does this dog need to drink?',hint:'Choose one.',choices:['🥤 Soda','💧 Water','🍭 Candy','🧸 Toy'],answer:1,why:'Animals need water to live.'},
+    {animal:'🐰',q:'What does this rabbit need for energy?',hint:'Think about what animals eat.',choices:['🍎 Food','📱 Phone','🎈 Balloon','✏️ Pencil'],answer:0,why:'Animals need food for energy.'},
+    {animal:'🐦',q:'What does this bird need to breathe?',hint:'We breathe it too!',choices:['🌬️ Air','🧃 Juice','🪨 Rock','🧢 Hat'],answer:0,why:'Animals need air to breathe.'},
+    {animal:'🦁',q:'The sun is very hot. What can give this lion protection?',hint:'Choose the safe place.',choices:['🏠 Shelter','🍬 Candy','🎮 Game','📚 Book'],answer:0,why:'Shelter protects animals from heat, cold, rain, and danger.'},
+    {animal:'🐢',q:'What does this turtle need to move and live comfortably?',hint:'Animals need room around them.',choices:['🌿 Space','🖍️ Crayons','🎵 Music','👑 Crown'],answer:0,why:'Animals need enough space to move and live.'},
+    {animal:'🐟',q:'A fish needs water. Which picture shows its best place to live?',hint:'Pick the habitat that gives it what it needs.',choices:['🌊 Pond / water','🏜️ Desert','🛋️ Sofa','🏙️ Road'],answer:0,why:'Fish live in water habitats.'},
+    {animal:'🐮',q:'Which TWO are basic needs of this cow?',hint:'Choose the best pair.',choices:['🍎 Food + 💧 Water','🎁 Gifts + 🎈 Balloons','📺 TV + 🎮 Games','👟 Shoes + 🧢 Hat'],answer:0,why:'Food and water are basic animal needs.'},
+    {animal:'🐦',q:'Why does a bird need a nest?',hint:'A nest is a kind of...',choices:['🏠 Shelter','🍎 Food','🌬️ Air','💧 Water'],answer:0,why:'A nest is shelter. It gives protection and a safe place to rest.'},
+    {animal:'🐘',q:'Which one is NOT a basic animal need?',hint:'Look for something animals can live without.',choices:['💧 Water','🌬️ Air','🎮 Video games','🍎 Food'],answer:2,why:'Video games are fun, but animals do not need them to live.'},
+    {animal:'🦊',q:'Choose ALL the idea in one answer: What do animals need to live?',hint:'Find the complete list.',choices:['Food, water, air, shelter, and space','Candy, toys, phones, and TV','Only water','Only food'],answer:0,why:'Animals need food, water, air, shelter, and space.'}
+  ];
+
+  const startScreen = document.getElementById('startScreen');
+  const gameScreen = document.getElementById('gameScreen');
+  const endScreen = document.getElementById('endScreen');
+  const startBtn = document.getElementById('startBtn');
+  const restartBtn = document.getElementById('restartBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const roundPill = document.getElementById('roundPill');
+  const scorePill = document.getElementById('scorePill');
+  const progressBar = document.getElementById('progressBar');
+  const animalEmoji = document.getElementById('animalEmoji');
+  const questionText = document.getElementById('questionText');
+  const hintText = document.getElementById('hintText');
+  const choices = document.getElementById('choices');
+  const feedback = document.getElementById('feedback');
+  const summary = document.getElementById('summary');
+  const resultStars = document.getElementById('resultStars');
+  const endMessage = document.getElementById('endMessage');
+
+  let current = 0;
+  let score = 0;
+  let answered = false;
+
+  function show(screen){
+    [startScreen,gameScreen,endScreen].forEach(s=>s.classList.add('hidden'));
+    screen.classList.remove('hidden');
+  }
+
+  function start(){
+    current = 0;
+    score = 0;
+    answered = false;
+    show(gameScreen);
+    render();
+  }
+
+  function render(){
+    answered = false;
+    const item = questions[current];
+    roundPill.textContent = `Question ${current+1} / ${questions.length}`;
+    scorePill.textContent = `⭐ ${score}`;
+    progressBar.style.width = `${(current/questions.length)*100}%`;
+    animalEmoji.textContent = item.animal;
+    questionText.textContent = item.q;
+    hintText.textContent = item.hint;
+    feedback.textContent = '';
+    feedback.className = 'feedback';
+    nextBtn.classList.add('hidden');
+    choices.innerHTML = '';
+
+    item.choices.forEach((label,index)=>{
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = 'choice';
+      btn.textContent = label;
+      btn.addEventListener('click',()=>answer(index,btn));
+      choices.appendChild(btn);
+    });
+  }
+
+  function answer(index,clicked){
+    if(answered) return;
+    answered = true;
+    const item = questions[current];
+    const buttons = [...choices.querySelectorAll('button')];
+    buttons.forEach(b=>b.disabled=true);
+
+    if(index === item.answer){
+      score++;
+      clicked.classList.add('correct','burst');
+      feedback.textContent = `Correct! 🎉 ${item.why}`;
+      feedback.classList.add('good');
+      scorePill.textContent = `⭐ ${score}`;
+    } else {
+      clicked.classList.add('wrong');
+      buttons[item.answer].classList.add('correct');
+      feedback.textContent = `Good try! 💪 ${item.why}`;
+      feedback.classList.add('bad');
+    }
+    progressBar.style.width = `${((current+1)/questions.length)*100}%`;
+    nextBtn.textContent = current === questions.length-1 ? 'See Results 🏆' : 'Next ➜';
+    nextBtn.classList.remove('hidden');
+    nextBtn.focus();
+  }
+
+  function next(){
+    if(current < questions.length-1){current++; render();}
+    else finish();
+  }
+
+  function finish(){
+    show(endScreen);
+    summary.textContent = `You got ${score} out of ${questions.length} stars!`;
+    const stars = Math.max(1,Math.round(score/2));
+    resultStars.textContent = '⭐'.repeat(stars) + '☆'.repeat(5-stars);
+    endMessage.textContent = score >= 9 ? 'Amazing! You are an Animal Needs Expert! 🌟' : score >= 7 ? 'Great work! You know what animals need! 🐾' : 'Nice effort! Play again and become an Animal Needs Expert! 🌱';
+  }
+
+  startBtn.addEventListener('click',start);
+  restartBtn.addEventListener('click',start);
+  nextBtn.addEventListener('click',next);
+})();
+</script>
+</body>
+</html>
