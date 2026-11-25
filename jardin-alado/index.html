@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#173e32">
+<title>Animal Detectives · Jardín Alado</title>
+<style>
+:root{color-scheme:light;--forest:#173e32;--ink:#203a30;--muted:#496158;--cream:#fffaf0;--lime:#deee9e;--line:#dbe5d7;--green:#276549}
+*{box-sizing:border-box}
+body{margin:0;background:#edf3e8;color:var(--ink);font:1rem/1.5 system-ui,sans-serif}
+header{background:radial-gradient(ellipse at 87% 50%,#37614a,transparent 55%),var(--forest);color:var(--cream)}
+.banner,main{width:min(92%,800px);margin:auto}
+.banner{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:32px 0}
+h1,h2{font-family:Georgia,serif;line-height:1.1;margin:.2em 0 .45em}
+h1{font-size:clamp(2.3rem,7vw,4rem);letter-spacing:-.035em}
+h2{font-size:clamp(1.65rem,5vw,2.5rem)}
+.kicker{font-size:.82rem;font-weight:750;letter-spacing:.12em;text-transform:uppercase;color:var(--lime)}
+.hero-art{font-size:clamp(2rem,9vw,5.25rem);white-space:nowrap}
+main{padding:22px 0 34px}
+.track{display:flex;align-items:center;justify-content:space-between;gap:14px;color:var(--muted);font-weight:700;margin-bottom:14px}
+progress{width:66%;height:12px;appearance:none;border:0;border-radius:99px;overflow:hidden;background:#d8e5d9}
+progress::-webkit-progress-bar{background:#d8e5d9}
+progress::-webkit-progress-value{background:var(--green)}
+progress::-moz-progress-bar{background:var(--green)}
+article{background:var(--cream);border:1px solid var(--line);border-radius:26px;padding:clamp(18px,5vw,36px);box-shadow:0 12px 30px #173e3212}
+.scene{margin:0 0 18px;background:linear-gradient(135deg,#e5efc7,#d6ebdf);border-radius:18px;min-height:104px;display:grid;place-content:center;text-align:center;padding:10px}
+.scene span{font-size:clamp(2.7rem,10vw,4.6rem);line-height:1.14}
+.scene figcaption{font-weight:750;margin-top:5px}
+.options{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:18px 0}
+button{font:inherit;font-weight:750;cursor:pointer;border-radius:14px;min-height:48px;padding:10px 14px}
+.choice{background:white;border:2px solid var(--line);color:var(--ink);display:grid;place-items:center;align-content:center;gap:3px;text-align:center}
+.choice span:first-child{font-size:2rem;line-height:1.15}
+.choice:hover,.choice[aria-pressed=true]{border-color:var(--green);background:#e9f3dc}
+button:focus-visible{outline:3px solid #a14120;outline-offset:3px}
+.primary{border:2px solid var(--forest);background:var(--forest);color:white}
+.primary:disabled{opacity:.45;cursor:default}
+footer{display:flex;justify-content:flex-end;margin-top:22px}
+.intro,.label{color:var(--muted);margin:0}
+.results{list-style:none;padding:0}
+.results li{padding:12px 0;border-bottom:1px solid var(--line)}
+.results span{display:block;color:var(--muted)}
+.score{font-size:2rem;font-weight:800;color:var(--green)}
+@media(max-width:510px){.options{grid-template-columns:1fr}.choice{grid-template-columns:55px 1fr;text-align:left;justify-items:start}.hero-art{font-size:2.3rem}}
+</style>
+</head>
+<body>
+<header><div class="banner"><div><div class="kicker">Science · Grade 3</div><h1>Animal Detectives</h1><p style="margin:0">Exploring Jardín Alado</p></div><div class="hero-art" aria-hidden="true">🔎🦋</div></div></header>
+<main>
+<div class="track"><span id="step">Question 1 of 5</span><progress aria-label="Questions answered" value="0" max="5"></progress></div>
+<article id="card"></article>
+</main>
+<script>
+const questions = [
+  {art:"🐢", animal:"Turtle", prompt:"What makes a turtle a vertebrate?",
+   choices:[["🦴","It has a backbone."],["🐚","It has a shell."],["🥚","It lays eggs."]], answer:0,
+   why:"A turtle has a backbone. A backbone is part of its skeleton."},
+  {art:"🔎", animal:"Look at the three animals.", prompt:"Which animal has no backbone?",
+   choices:[["🐸","Frog"],["🦋","Butterfly"],["🐦","Bird"]], answer:1,
+   why:"A butterfly has no backbone. It is an invertebrate."},
+  {art:"🐢 🥚", animal:"A turtle lays eggs.", prompt:"Which group does the turtle belong to?",
+   choices:[["🐣","Oviparous"],["🐾","Viviparous"]], answer:0,
+   why:"An oviparous animal hatches from an egg. A baby turtle hatches from an egg."},
+  {art:"🐒", animal:"A baby monkey is born alive.", prompt:"Which group does the monkey belong to?",
+   choices:[["🐣","Oviparous"],["🐾","Viviparous"]], answer:1,
+   why:"A baby monkey is born alive from its mother. Monkeys are viviparous."},
+  {art:"🐻 🫐 🐟", animal:"This bear eats berries and fish.", prompt:"What kind of eater is this bear?",
+   choices:[["🌿","Herbivore"],["🐟","Carnivore"],["🌿🐟","Omnivore"]], answer:2,
+   why:"An omnivore eats plants and animals. An herbivore eats plants. A carnivore eats other animals."}
+];
+const card = document.querySelector("#card");
+const step = document.querySelector("#step");
+const progress = document.querySelector("progress");
+let responses = [];
+let selected = null;
+
+function focusHeading(){
+  card.querySelector("h2").focus();
+}
+
+function showQuestion(moveFocus = true){
+  const index = responses.length;
+  const question = questions[index];
+  selected = null;
+  step.textContent = "Question " + (index + 1) + " of " + questions.length;
+  progress.value = index;
+  card.innerHTML = `
+    <figure class="scene"><span aria-hidden="true">${question.art}</span><figcaption>${question.animal}</figcaption></figure>
+    <h2 tabindex="-1">${question.prompt}</h2>
+    <p class="intro">Choose one answer.</p>
+    <div class="options" role="group" aria-label="Answer choices">
+      ${question.choices.map(([icon, label]) => `<button class="choice" type="button" aria-pressed="false"><span aria-hidden="true">${icon}</span><span>${label}</span></button>`).join("")}
+    </div>
+    <footer><button class="primary" type="button" disabled>${index === questions.length - 1 ? "See my results" : "Next question →"}</button></footer>`;
+  const choices = [...card.querySelectorAll(".choice")];
+  const next = card.querySelector(".primary");
+  choices.forEach((choice, choiceIndex) => choice.addEventListener("click", () => {
+    selected = choiceIndex;
+    choices.forEach((button, buttonIndex) => button.setAttribute("aria-pressed", String(buttonIndex === selected)));
+    next.disabled = false;
+  }));
+  next.addEventListener("click", () => {
+    if (selected === null) return;
+    responses.push(selected);
+    if (responses.length === questions.length) showResults();
+    else showQuestion();
+  });
+  if (moveFocus) focusHeading();
+}
+
+function showResults(){
+  const correct = responses.filter((answer, i) => answer === questions[i].answer).length;
+  progress.value = questions.length;
+  step.textContent = "Quiz complete";
+  card.innerHTML = `
+    <h2 tabindex="-1">Detective report</h2>
+    <div class="score">${correct} / ${questions.length}</div>
+    <ol class="results">
+      ${questions.map((question, i) => {
+        const isCorrect = responses[i] === question.answer;
+        return `<li><strong>${i + 1}. ${question.prompt}</strong>
+          <span>${isCorrect ? "✓ Correct" : "Your answer: " + question.choices[responses[i]][1]}</span>
+          ${isCorrect ? "" : `<span>Correct answer: ${question.choices[question.answer][1]}</span>`}
+          <span>${question.why}</span></li>`;
+      }).join("")}
+    </ol>
+    <p><strong>Think back to Jardín Alado.</strong> Tell your teacher about one animal you saw. What did you notice about it?</p>
+    <footer><button class="primary" type="button">Play again</button></footer>`;
+  card.querySelector("button").addEventListener("click", () => {
+    responses = [];
+    showQuestion();
+  });
+  focusHeading();
+}
+showQuestion(false);
+</script>
+</body>
+</html>
