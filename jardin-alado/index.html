@@ -15,11 +15,12 @@ main{margin:32px auto 50px}.cover,.quiz{display:grid;grid-template-columns:1fr 1
 p{margin:.4em 0 1.2em}.button{border:0;background:var(--orange);border-radius:8px;padding:13px 19px;min-height:46px;font-weight:800}.button:hover{background:#ffcd85}.quiet{border:1px solid var(--line);background:transparent;border-radius:8px;padding:10px 14px;font-weight:700}.quiet:hover{background:var(--sage)}
 .plate{position:relative;background:#163f34;min-height:335px;display:grid;place-items:center;margin:0;overflow:hidden}.plate>svg{width:100%;height:100%;max-height:600px;position:absolute;inset:0}.plate figcaption{position:absolute;bottom:20px;left:22px;right:22px;color:#fff7e5;font-size:.82rem;font-weight:750;letter-spacing:.1em;text-transform:uppercase}
 .topics{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:15px 0}.topics div{border:1px solid var(--line);border-radius:12px;padding:13px 17px;background:var(--white);font-weight:750}.topics small{display:block;font-size:.78rem;color:var(--muted);font-weight:500}
-.progress{display:flex;justify-content:space-between;gap:8px;margin:0 0 12px;align-items:center;font-weight:750}.stops{display:flex;gap:6px}.stops span{width:22px;height:5px;border-radius:4px;background:#c6d4c4}.stops .done{background:#2b714f}.stops .current{background:#9a4e23}
+.progress{display:flex;justify-content:space-between;gap:8px;margin:0 0 12px;align-items:center;font-weight:750}.stops{display:flex;gap:6px}.stops span{width:clamp(9px,2.4vw,22px);height:5px;border-radius:4px;background:#c6d4c4}.stops .done{background:#2b714f}.stops .current{background:#9a4e23}
 .question{padding-top:35px;padding-bottom:35px}.prompt{color:var(--muted);margin-bottom:12px}.options{display:grid;gap:8px}.choice{background:#fffdf8;border:1px solid #aabdb0;border-radius:10px;display:flex;align-items:center;text-align:left;gap:12px;padding:10px 13px;min-height:49px;font-weight:750}.choice:hover,.choice[aria-pressed=true]{background:var(--sage);border-color:var(--ink)}.letter{display:grid;place-items:center;width:26px;height:26px;flex:none;border-radius:50%;background:var(--sage);font-size:.78rem}.choice[aria-pressed=true] .letter{background:var(--ink);color:#fff}
 .actions{display:flex;gap:12px;justify-content:space-between;align-items:center;margin-top:20px}.report{max-width:800px;margin:auto;background:var(--white);border:1px solid var(--line);border-radius:24px}.score{display:inline-block;padding:6px 13px;border-radius:8px;background:var(--sage);font-weight:800}.review{list-style:none;padding:0}.review li{border-top:1px solid var(--line);padding:12px 0}.review p{margin:2px 0;color:var(--muted)}.reflection{background:var(--sage);padding:16px;border-radius:10px}.reflection strong{display:block;margin-bottom:6px}
 @media(max-width:720px){.bar{height:58px}main{margin-top:16px}.cover,.quiz{grid-template-columns:1fr;min-height:0}.cover .plate{grid-row:1}.plate{min-height:225px}.cover .plate{min-height:255px}.plate figcaption{bottom:10px}.topics div{padding:9px;font-size:.84rem}.topics small{display:none}}
 @media print{header,.actions{display:none}.report{border:none;padding:0}body{background:white}}
+.bird-choices{grid-template-columns:repeat(2,minmax(0,1fr))}.picture{display:grid;justify-items:center;text-align:center;padding:6px}.picture svg{width:100%;height:90px;background:#214b3c;border-radius:7px}.blank{padding:13px;background:var(--sage);border-radius:8px;font-weight:700}.pairs{display:grid;gap:8px}.pairs label{display:grid;grid-template-columns:1fr 1fr;align-items:center;gap:7px;background:#edf1e6;padding:7px 9px;border-radius:8px;font-weight:700}.pairs select{width:100%;font:inherit;color:inherit;border:1px solid #aabdb0;background:var(--white);padding:8px 3px;border-radius:6px}.order{min-height:48px}.stage-list{display:flex;flex-wrap:wrap;gap:5px}.stage-list span{padding:4px 7px;border-radius:6px;background:var(--sage);font-weight:bold}.target{position:absolute;z-index:1;transform:translate(-50%,-50%);border:2px solid white;border-radius:50%;min-width:42px;min-height:42px;background:#ffbe67;color:#17392f;font-weight:800}.target[aria-pressed=true]{background:#17392f;color:white;outline:2px solid #ffbe67}.target-area{position:absolute;width:min(70%,380px);aspect-ratio:13/10;top:50%;left:50%;transform:translate(-50%,-50%)}.target-area svg{width:100%;height:100%}.source{margin-top:18px;font-size:.82rem;color:var(--muted)}.source a{color:inherit}
 </style>
 <body>
 <svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -38,25 +39,38 @@ p{margin:.4em 0 1.2em}.button{border:0;background:var(--orange);border-radius:8p
 <g id="fish"><path d="m32 0 43-27v54Z" fill="#85a6ad"/><path d="M-63 0Q-13-50 51 0Q-13 50-63 0Z" fill="#bad4d6"/><circle cx="-36" cy="-4" r="4" fill="#223e37"/><path d="M-23-16q12 16 0 32" stroke="#72999b" stroke-width="3" fill="none"/></g>
 <g id="berries"><path d="m0 1-7-33m7 30 24-32" stroke="#b5cb83" stroke-width="4"/><use href="#leaf" transform="translate(-6 -26) rotate(-36) scale(.36)" style="color:#80a96d"/><circle cx="-28" cy="6" r="19" fill="#cf716a"/><circle cx="8" cy="2" r="21" fill="#d87b73"/><circle cx="-6" cy="30" r="21" fill="#ac5360"/></g>
 <g id="frame"><rect width="540" height="450" fill="url(#glade)"/><rect width="540" height="450" fill="url(#grain)"/><circle cx="275" cy="214" r="154" fill="none" stroke="#a2b88b" opacity=".37"/><circle cx="275" cy="214" r="171" fill="none" stroke="#a2b88b" opacity=".26" stroke-dasharray="2 7"/><use href="#foliage" transform="translate(-31 456) scale(1.8)"/><use href="#foliage" transform="translate(563 4) rotate(180) scale(1.42)"/><use href="#foliage" transform="translate(531 403) rotate(-52) scale(.85)"/></g>
+<g id="macaw"><path d="m-4 26-52 104 61-57 25-41" fill="#43a2b2"/><path d="M-49 47Q-69-7-16-52Q10-100 47-78Q85-59 64-24Q51-4 35 12Q3 68-49 47Z" fill="#df6542"/><path d="M-37 45Q-65-2-15-20Q25-32 29 1Q16 42-37 45Z" fill="#edb753"/><path d="M-44 44Q-59 22-39 7Q-9 10 5 14Q-16 43-44 44Z" fill="#409cac"/><ellipse cx="49" cy="-59" rx="22" ry="17" fill="#fff0cc"/><circle cx="55" cy="-62" r="4" fill="#173c32"/><path d="M66-66Q101-54 75-28L69-46L60-49Z" fill="#233a32"/></g>
+<g id="owl"><ellipse cy="20" rx="58" ry="71" fill="#b98d61"/><path d="M-57-28-62-81-22-58Q0-65 22-58L62-81 57-28Q42 22 0 19Q-42 22-57-28Z" fill="#c6a278"/><circle cx="-24" cy="-31" r="21" fill="#ffe8a8"/><circle cx="24" cy="-31" r="21" fill="#ffe8a8"/><circle cx="-24" cy="-31" r="9" fill="#193930"/><circle cx="24" cy="-31" r="9" fill="#193930"/><path d="m-10-16 10 17 10-17Z" fill="#efae58"/><path d="m-28 25 8 8 8-8m4 0 8 8 8-8m4 0 8 8 8-8m-47 15 8 8 8-8m6 0 8 8 8-8" fill="none" stroke="#7e5b47" stroke-width="3"/></g>
+<g id="skeleton" fill="none" stroke="#fae4b3" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+<path d="M-109-14Q-108-41-82-41Q-67-41-63-26L-45-20-68-12Q-82-5-96-14Z"/><circle cx="-80" cy="-27" r="5"/>
+<path d="M-94-10Q-91 29-55 24Q-30-11 24-7Q50-5 76 11"/><path d="M-41 5Q-55 53-8 59Q40 64 57 13M-24 0Q-38 44-5 53M-6-5Q-19 37 9 55M14-7Q7 33 27 48M31-6Q31 25 42 32"/>
+<path d="M-24 4-7-17 56-58 34-25 2-8M57 11l-20 32 20 22-10 22m-7 0h24M22 50l-8 23-16 11m-8 0h22M75 11l30-5-23 15Z"/>
+</g>
 </defs></svg>
 <header><div class="bar"><span class="brand">Jardín Alado</span><span class="course">Science · 3rd A &amp; B</span></div></header>
 <main id="app"></main>
 <script>
 const questions = [
-  {topic:"Body clues",art:"turtle",caption:"Turtle • Body structure",prompt:"Which clue shows that a turtle is a vertebrate?",options:["It has a shell.","It has a backbone.","It has four legs."],answer:1,why:"A turtle has a backbone inside its body."},
-  {topic:"Body clues",art:"butterfly",caption:"Butterfly • Body structure",prompt:"A butterfly has no backbone. Which group is it in?",options:["Invertebrates","Vertebrates"],answer:0,why:"An invertebrate is an animal without a backbone."},
-  {topic:"Animal babies",art:"egg",caption:"Turtle egg • A baby is hatching",prompt:"A baby turtle hatches from an egg. How do we classify the turtle?",options:["Viviparous","Oviparous"],answer:1,why:"Turtles are oviparous. Their babies hatch from eggs."},
-  {topic:"Animal babies",art:"monkey",caption:"Monkey • A baby is born alive",prompt:"Which word describes a monkey?",options:["Oviparous","Viviparous"],answer:1,why:"Monkeys are viviparous. Their babies develop inside the mother and are born alive."},
-  {topic:"Food clues",art:"food",caption:"Bear’s meal • Berries and fish",prompt:"This bear eats berries and fish. What kind of eater is it?",options:["Carnivore","Herbivore","Omnivore"],answer:2,why:"An omnivore eats both plants and animals. Berries come from plants, and fish are animals."}
+  {type:"picture",topic:"X-ray lab",art:"owl",caption:"Look inside a bird",prompt:"Which picture shows a bird skeleton?",options:["owl","skeleton"],labels:["Picture A","Picture B"],answer:1,why:"The skeleton is the set of bones inside the bird."},
+  {type:"hotspot",topic:"X-ray lab",art:"skeleton",caption:"Bird skeleton • Side view",prompt:"Tap the marker on the backbone.",options:["A","B","C"],answer:1,why:"Marker B points to the spine along the bird’s back, above its ribs."},
+  {type:"blank",topic:"Word bank",art:"macaw",caption:"Macaw • A bird at Jardín Alado",prompt:"Complete the sentence.",sentence:"A macaw has a backbone. It is a ____.",options:["vertebrate","invertebrate","feather"],answer:0,why:"Macaws are birds. Birds have backbones, so they are vertebrates."},
+  {type:"pairs",topic:"Sort the animals",art:"butterfly",caption:"Compare animals by their backbones",prompt:"Put each animal in its group.",rows:["Owl","Butterfly","Macaw"],options:["Vertebrate","Invertebrate"],answer:[0,1,0],why:"Owls and macaws have backbones. Butterflies have no backbone."},
+  {type:"order",topic:"Life cycle",art:"egg",caption:"Birds hatch from eggs",prompt:"Put the bird’s life stages in order.",options:["Adult bird","Egg","Chick"],answer:[1,2,0],why:"First comes the egg. A chick hatches and grows into an adult bird."},
+  {type:"pairs",topic:"Match the baby clues",art:"egg",caption:"Eggs and live birth",prompt:"Match each animal to how it is born.",rows:["Owl","Dog"],options:["Hatches from an egg","Is born alive from its mother"],answer:[0,1],why:"Owls are oviparous. Dogs are viviparous."},
+  {type:"blank",topic:"Word bank",art:"owl",caption:"Owl • A bird of prey",prompt:"Complete the owl’s field note.",sentence:"This owl eats mice. It is a ____.",options:["herbivore","carnivore","omnivore"],answer:1,why:"A carnivore eats other animals. A mouse is an animal."},
+  {type:"pairs",topic:"Match the menus",art:"food",caption:"Use the food clues",prompt:"Match each menu to an animal group.",rows:["Leaves and seeds","Mice and insects","Seeds and insects"],options:["Herbivore","Carnivore","Omnivore"],answer:[0,1,2],why:"Herbivores eat plants, carnivores eat animals, and omnivores eat both."},
+  {type:"picture",topic:"Explore the sanctuary",art:"macaw",caption:"Macaws and owls are listed by Jardín Alado",prompt:"Which bird belongs in the birds of prey area?",options:["macaw","owl"],labels:["Macaw","Owl"],answer:1,why:"Owls are birds of prey. Jardín Alado lists owls in its raptor area and macaws in its parrot area."},
+  {type:"choice",topic:"Care for wildlife",art:"owl",caption:"Jardín Alado • Wildlife rescue",prompt:"A rescued owl is resting. How can you help?",options:["Call loudly to make it fly.","Watch quietly and listen to the guide.","Try to touch its feathers."],answer:1,why:"Quiet observation gives rescued birds space and lets the guide explain how to care for them."}
 ];
 const app = document.querySelector("#app");
 let index = 0;
 let answers = [];
 
-function plate(art, caption = ""){
-  const drawing = art === "food" ? '<use href="#berries" transform="translate(212 211) scale(1.2)"/><use href="#fish" transform="translate(335 222) scale(1.13)"/>' :
+function plate(art, caption = "", marked = false){
+  const drawing = marked ? "" : art === "food" ? '<use href="#berries" transform="translate(212 211) scale(1.2)"/><use href="#fish" transform="translate(335 222) scale(1.13)"/>' :
     `<use href="#${art}" transform="translate(275 220) scale(${art === "egg" ? 1.78 : 1.25})"/>`;
-  return `<figure class="plate"><svg viewBox="0 0 540 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#frame"/>${drawing}</svg>${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
+  return `<figure class="plate"><svg viewBox="0 0 540 450" preserveAspectRatio="xMidYMid slice" aria-hidden="true"><use href="#frame"/>${drawing}</svg>${marked ? `<div class="target-area"><svg viewBox="-130 -100 260 200" aria-hidden="true"><use href="#skeleton"/></svg>
+  ${[[19,30],[56,46],[68,74]].map(([x,y],i)=>`<button class="target" data-value="${i}" aria-label="Marker ${"ABC"[i]}" aria-pressed="${answers[index]===i}" style="left:${x}%;top:${y}%">${"ABC"[i]}</button>`).join("")}</div>` : ""}${caption ? `<figcaption>${caption}</figcaption>` : ""}</figure>`;
 }
 
 function focusHeading(){
@@ -68,8 +82,8 @@ function cover(){
   app.innerHTML = `<section class="cover">
     <div class="cover-copy"><div class="eyebrow">After the field trip</div><h1 tabindex="-1">Animal<br>Detectives</h1>
     <p>Study the clues. Find out how animals are built, how they are born, and what they eat.</p>
-    <button class="button" id="start">Start the quiz →</button></div>
-    ${plate("butterfly")}
+    <button class="button" id="start">Start 10 challenges →</button></div>
+    ${plate("macaw")}
   </section>
   <div class="topics"><div>Body clues<small>Backbones and animal groups</small></div><div>Animal babies<small>Eggs and live birth</small></div><div>Food clues<small>Plants and animals</small></div></div>`;
   app.querySelector("#start").onclick = () => {
@@ -79,24 +93,69 @@ function cover(){
   };
 }
 
-function question(){
+function answerText(item, value){
+  if(item.type === "picture") return item.labels[value];
+  if(item.type === "pairs") return item.rows.map((row,i)=>row+" → "+item.options[value[i]]).join(" · ");
+  if(item.type === "order") return value.map(i=>item.options[i]).join(" → ");
+  return item.options[value];
+}
+
+function ready(item, value){
+  if(value === undefined) return false;
+  if(item.type === "pairs") return item.rows.every((_,i)=>Number.isInteger(value[i]));
+  if(item.type === "order") return value.length === item.options.length;
+  return true;
+}
+
+function controls(item, value){
+  if(item.type === "hotspot") return '<p class="prompt">A, B or C? Use the markers on the diagram.</p>';
+  if(item.type === "pairs") return `<div class="pairs">${item.rows.map((row,i)=>`<label>${row}<select data-row="${i}"><option value="">Choose…</option>${item.options.map((option,j)=>`<option value="${j}" ${value?.[i]===j?"selected":""}>${option}</option>`).join("")}</select></label>`).join("")}</div>`;
+  if(item.type === "order"){
+    const order = value ?? [];
+    return `<div class="order" aria-live="polite"><div class="stage-list">${order.map((v,i)=>`<span>${i+1}. ${item.options[v]}</span>`).join("")}</div></div>
+    <div class="options">${item.options.map((option,i)=>`<button class="choice" data-value="${i}" ${order.includes(i)?"disabled":""}>${option}</button>`).join("")}</div>
+    <button class="quiet" id="clear" ${order.length?"":"disabled"}>Clear order</button>`;
+  }
+  if(item.type === "picture") return `<div class="options bird-choices">${item.options.map((art,i)=>`<button class="choice picture" data-value="${i}" aria-pressed="${value===i}"><svg viewBox="-140 -115 280 260" aria-hidden="true"><use href="#${art}"/></svg>${item.labels[i]}</button>`).join("")}</div>`;
+  return `${item.sentence?`<p class="blank">${item.sentence}</p>`:""}<div class="options">${item.options.map((option,i)=>`<button class="choice" data-value="${i}" aria-pressed="${value===i}">${option}</button>`).join("")}</div>`;
+}
+
+function question(moveFocus = true){
   const item = questions[index];
-  app.innerHTML = `<div class="progress"><span>Question ${index+1} of ${questions.length}</span>
+  const value = answers[index];
+  app.innerHTML = `<div class="progress"><span>Challenge ${index+1} of ${questions.length}</span>
     <div class="stops" aria-hidden="true">${questions.map((_,i)=>`<span class="${i<index?"done":i===index?"current":""}"></span>`).join("")}</div></div>
-    <section class="quiz">${plate(item.art,item.caption)}
+    <section class="quiz">${plate(item.art,item.caption,item.type==="hotspot")}
     <div class="question"><div class="eyebrow">${item.topic}</div>
-    <h2 tabindex="-1">${item.prompt}</h2><p class="prompt">Choose one answer.</p>
-    <div class="options" role="group" aria-label="Answer choices">
-    ${item.options.map((option,i)=>`<button class="choice" aria-pressed="${answers[index]===i}"><span class="letter" aria-hidden="true">${"ABC"[i]}</span>${option}</button>`).join("")}
-    </div><div class="actions"><button class="quiet" id="back">← Back</button>
-    <button class="button" id="next" ${answers[index]===undefined?"disabled":""}>${index===questions.length-1?"See my report":"Continue →"}</button></div></div></section>`;
-  const buttons = [...app.querySelectorAll(".choice")];
+    <h2 tabindex="-1">${item.prompt}</h2>
+    ${controls(item,value)}
+    <div class="actions"><button class="quiet" id="back">← Back</button>
+    <button class="button" id="next" ${ready(item,value)?"":"disabled"}>${index===questions.length-1?"See my report":"Continue →"}</button></div></div></section>`;
   const next = app.querySelector("#next");
-  buttons.forEach((button,i)=>button.onclick = () => {
-    answers[index] = i;
-    buttons.forEach((option,j)=>option.setAttribute("aria-pressed",String(i===j)));
-    next.disabled = false;
+  const buttons = [...app.querySelectorAll("[data-value]")];
+  buttons.forEach(button=>button.onclick = () => {
+    const selected = Number(button.dataset.value);
+    if(item.type === "order"){
+      answers[index] = [...(answers[index] ?? []),selected];
+      question(false);
+      (app.querySelector("[data-value]:not(:disabled)") ?? app.querySelector("#next")).focus();
+    } else {
+      answers[index] = selected;
+      buttons.forEach(option=>option.setAttribute("aria-pressed",String(option === button)));
+      next.disabled = false;
+    }
   });
+  app.querySelectorAll("[data-row]").forEach(select=>select.onchange = () => {
+    answers[index] ??= [];
+    answers[index][Number(select.dataset.row)] = select.value === "" ? undefined : Number(select.value);
+    next.disabled = !ready(item,answers[index]);
+  });
+  const clear = app.querySelector("#clear");
+  if(clear) clear.onclick = () => {
+    answers[index] = [];
+    question(false);
+    app.querySelector("[data-value]").focus();
+  };
   next.onclick = () => {
     index++;
     if(index===questions.length) report();
@@ -111,19 +170,20 @@ function question(){
       focusHeading();
     }
   };
-  focusHeading();
+  if(moveFocus) focusHeading();
 }
 
 function report(){
-  const score = questions.filter((item,i)=>item.answer===answers[i]).length;
+  const correct = questions.map((item,i)=>JSON.stringify(item.answer)===JSON.stringify(answers[i]));
+  const score = correct.filter(Boolean).length;
   app.innerHTML = `<section class="report">
     <h2 tabindex="-1">Detective report</h2><span class="score">${score} / ${questions.length} correct</span>
     <ol class="review">${questions.map((item,i)=>`<li><strong>${i+1}. ${item.prompt}</strong>
-      <p>${item.answer===answers[i]?"Correct · ":"Your answer · "}${item.options[answers[i]]}</p>
-      ${item.answer===answers[i]?"":`<p>Correct answer · ${item.options[item.answer]}</p>`}<p>${item.why}</p></li>`).join("")}</ol>
+      <p>${correct[i]?"Correct · ":"Your answer · "}${answerText(item,answers[i])}</p>
+      ${correct[i]?"":`<p>Correct answer · ${answerText(item,item.answer)}</p>`}<p>${item.why}</p></li>`).join("")}</ol>
     <div class="reflection"><strong>See · Think · Wonder</strong>
     <div>I saw ___ at Jardín Alado.</div><div>I think it is a ___ because ___.</div><div>I wonder ___.</div></div>
-    <div class="actions"><button class="quiet" id="restart">Try again</button><button class="button" id="print">Print report</button></div></section>`;
+    <p class="source">Field trip source: <a href="https://www.jardinalado.com/espacios">Jardín Alado · Conoce nuestras zonas</a></p><div class="actions"><button class="quiet" id="restart">Try again</button><button class="button" id="print">Print report</button></div></section>`;
   app.querySelector("#restart").onclick = () => {cover();focusHeading();};
   app.querySelector("#print").onclick = () => window.print();
   focusHeading();
